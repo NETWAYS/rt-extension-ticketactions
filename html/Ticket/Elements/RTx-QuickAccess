@@ -39,7 +39,8 @@
     	'Re-open' => 're-open',
     	'Stall' => 'stall',
     	'extract-article' => 'extract',
-    	'rtx_quick_resolve' => 'quick-resolve'
+    	'rtx_quick_resolve' => 'quick-resolve',
+    	'steal' => 'steal'
     };
 </%once>
 <%args>
