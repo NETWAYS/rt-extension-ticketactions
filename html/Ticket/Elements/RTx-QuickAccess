@@ -1,0 +1,56 @@
+<style type="text/css">
+	.rtx-quickaccess-button {
+		display: inline-block;
+		border: 1px #c1c1c1 solid;
+		width: 40px;
+		height: 40px;
+	}
+</style>
+<&| /Widgets/TitleBox, title => loc('Quick Access'), class => 'ticket-info-basics' &>
+% foreach my $entry ($menu->children()) {
+			<!-- KEY: <% $entry->key %> -->
+    		<a style="background: transparent url(<& .image, key=>$entry->key &>) center center no-repeat;" title="<% $entry->title %>" name="<% $entry->title %>" class="rtx-quickaccess-button" href="<% $baseUrl %><% $entry->path %>">
+    			
+    		</a>
+% }
+</&>
+<%init>
+	my $menu = PageMenu()->child('actions');
+	    
+    unless ($menu) {
+    	return;
+    }
+</%init>
+<%once>
+	use Data::Dumper;
+	
+    my $baseUrl = RT->Config->Get('WebURL');
+    my $imgUrl = $baseUrl. 'NoAuth/RTx-TicketActions/images/';
+    
+    my $imgMap = {
+    	'reply' => 'mail',
+    	'comment' => 'comment',
+    	'forward' => 'forward',
+    	'Open It' => 'open',
+    	'Resolve' => 'resolve',
+    	'Reject' => 'reject',
+    	'Delete' => 'delete',
+    	'take' => 'take',
+    	'Re-open' => 're-open',
+    	'Stall' => 'stall',
+    	'extract-article' => 'extract',
+    	'rtx_quick_resolve' => 'quick-resolve'
+    };
+</%once>
+<%args>
+	$Ticket => undef
+</%args>
+<%def .image>
+	<% $image %>
+	<%init>
+		my $image = $imgUrl. (exists($imgMap->{$key}) && $imgMap->{$key} ? $imgMap->{$key} : 'x-unknown'). '.png';
+	</%init>
+	<%args>
+		$key => undef
+	</%args>
+</%def>
