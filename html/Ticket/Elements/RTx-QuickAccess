@@ -2,16 +2,25 @@
 	.rtx-quickaccess-button {
 		display: inline-block;
 		border: 1px #c1c1c1 solid;
-		width: 40px;
-		height: 40px;
+		margin: 4px 0px 0 0;
+		width: 60px;
+		height: 20px;
+		white-space: nowrap;
+		padding: 40px 0 0 0;
+		text-align: center;
+		color: #666;
 	}
 </style>
 <&| /Widgets/TitleBox, title => loc('Quick Access'), class => 'ticket-info-basics' &>
+% my $i = 0;
 % foreach my $entry ($menu->children()) {
 			<!-- KEY: <% $entry->key %> -->
-    		<a style="background: transparent url(<& .image, key=>$entry->key &>) center center no-repeat;" title="<% $entry->title %>" name="<% $entry->title %>" class="rtx-quickaccess-button" href="<% $baseUrl %><% $entry->path %>">
-    			
+    		<a style="background: #dfdfdf url(<& .image, key=>$entry->key &>) center 0px no-repeat;" title="<% $entry->title %>" name="<% $entry->title %>" class="rtx-quickaccess-button" href="<% $baseUrl %><% $entry->path %>">
+    			<% $textMap->{$entry->key} %>
     		</a>
+%	if (++$i % 5 eq 0) {
+		<br />
+%	}
 % }
 </&>
 <%init>
@@ -41,6 +50,22 @@
     	'extract-article' => 'extract',
     	'rtx_quick_resolve' => 'quick-resolve',
     	'steal' => 'steal'
+    };
+    
+    my $textMap = {
+    	'reply' => 'Reply',
+    	'comment' => 'Comment',
+    	'forward' => 'Forward',
+    	'Open It' => 'Open',
+    	'Resolve' => 'Resolve',
+    	'Reject' => 'Reject',
+    	'Delete' => 'Delete',
+    	'take' => 'Take',
+    	'Re-open' => 'Re-open',
+    	'Stall' => 'Stall',
+    	'extract-article' => 'Extract',
+    	'rtx_quick_resolve' => 'QR!',
+    	'steal' => 'Steal'
     };
 </%once>
 <%args>
