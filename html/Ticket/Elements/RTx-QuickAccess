@@ -14,11 +14,17 @@
 <&| /Widgets/TitleBox, title => loc('Quick Access'), class => 'ticket-info-basics' &>
 % my $i = 0;
 % foreach my $entry ($menu->children()) {
+%           my ($label);
+%           if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
+%               $label = 'FU ' . $1;
+%           } else {
+%               $label = $textMap->{$entry->key};
+%           }
 			<!-- KEY: <% $entry->key %> -->
     		<a style="background: #e4e4e4 url(<& .image, key=>$entry->key &>) center 0px no-repeat;" title="<% $entry->title %>" name="<% $entry->title %>" class="rtx-quickaccess-button" href="<% $baseUrl %><% $entry->path %>">
-    			<% $textMap->{$entry->key} %>
+    			<% $label %>
     		</a>
-%	if (++$i % 5 eq 0) {
+%	if (++$i % 6 eq 0) {
 		<br />
 %	}
 % }
@@ -37,37 +43,37 @@
     my $imgUrl = $baseUrl. 'NoAuth/RTx-TicketActions/images/';
     
     my $imgMap = {
-    	'reply' => 'mail',
-    	'comment' => 'comment',
-    	'forward' => 'forward',
-    	'Open It' => 'open',
-    	'Resolve' => 'resolve',
-    	'Reject' => 'reject',
-    	'Delete' => 'delete',
-    	'take' => 'take',
-    	'Re-open' => 're-open',
-    	'Stall' => 'stall',
-    	'extract-article' => 'extract',
-    	'rtx_quick_resolve' => 'quick-resolve',
-    	'steal' => 'steal',
-    	'Undelete' => 'undelete'
+    	'reply'                => 'mail',
+    	'comment'              => 'comment',
+    	'forward'              => 'forward',
+    	'Open It'              => 'open',
+    	'Resolve'              => 'resolve',
+    	'Reject'               => 'reject',
+    	'Delete'               => 'delete',
+    	'take'                 => 'take',
+    	'Re-open'              => 're-open',
+    	'Stall'                => 'stall',
+    	'extract-article'      => 'extract',
+    	'rtx_quick_resolve'    => 'quick-resolve',
+    	'steal'                => 'steal',
+    	'Undelete'             => 'undelete'
     };
     
     my $textMap = {
     	'reply' => 'Reply',
-    	'comment' => 'Comment',
-    	'forward' => 'Forward',
-    	'Open It' => 'Open',
-    	'Resolve' => 'Resolve',
-    	'Reject' => 'Reject',
-    	'Delete' => 'Delete',
-    	'take' => 'Take',
-    	'Re-open' => 'Re-open',
-    	'Stall' => 'Stall',
-    	'extract-article' => 'Extract',
-    	'rtx_quick_resolve' => 'QR!',
-    	'steal' => 'Steal',
-    	'Undelete' => 'Undelete'
+    	'comment'              => 'Comment',
+    	'forward'              => 'Forward',
+    	'Open It'              => 'Open',
+    	'Resolve'              => 'Resolve',
+    	'Reject'               => 'Reject',
+    	'Delete'               => 'Delete',
+    	'take'                 => 'Take',
+    	'Re-open'              => 'Re-open',
+    	'Stall'                => 'Stall',
+    	'extract-article'      => 'Extract',
+    	'rtx_quick_resolve'    => 'QR!',
+    	'steal'                => 'Steal',
+    	'Undelete'             => 'Undelete'
     };
 </%once>
 <%args>
@@ -76,7 +82,12 @@
 <%def .image>
 	<% $image %>
 	<%init>
-		my $image = $imgUrl. (exists($imgMap->{$key}) && $imgMap->{$key} ? $imgMap->{$key} : 'x-unknown'). '.png';
+        my ($image);
+        if ($key =~ m/^rtx_actions_fu_(\d+)/) {
+            $image = $imgUrl. 'stall.png';
+        } else {
+            $image = $imgUrl. (exists($imgMap->{$key}) && $imgMap->{$key} ? $imgMap->{$key} : 'x-unknown'). '.png';
+        }
 	</%init>
 	<%args>
 		$key => undef
