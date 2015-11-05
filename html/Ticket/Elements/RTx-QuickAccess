@@ -2,31 +2,55 @@
 	.rtx-quickaccess-button {
 		display: inline-block;
 		border: 1px #c1c1c1 solid;
-		margin: 4px 0px 0 0;
-		width: 60px;
-		height: 20px;
 		white-space: nowrap;
-		padding: 40px 0 0 0;
-		text-align: center;
-		color: #666;
+        color: #666;
+        text-align: center;
+        padding: 6px;
+        margin: 6px 2px 0 0;
+        width: 70px;
+        text-decoration: none !important;
 	}
+
+    .rtx-quickaccess-button:visited {
+        color: #666 !important;
+    }
+
+    .rtx-quickaccess-button:hover {
+        background-color: #f1f1f1;
+        -o-transition:.5s;
+        -ms-transition:.5s;
+        -moz-transition:.5s;
+        -webkit-transition:.5s;
+        transition:.5s;
+    }
+
+    .rtx-quickaccess-button:hover span {
+        color: #ff8000;
+    }
 </style>
-<&| /Widgets/TitleBox, title => loc('Quick Access'), class => 'ticket-info-basics' &>
-% my $i = 0;
-% foreach my $entry ($menu->children()) {
-%           my ($label);
-%           if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
-%               $label = 'FU ' . $1;
-%           } else {
-%               $label = $textMap->{$entry->key};
-%           }
+<&| /Widgets/TitleBox, title => loc('Quick Actions'), class => 'ticket-info-basics' &>
+<%perl>
+my $i = 0;
+foreach my $entry ($menu->children()) {
+            my ($label, $img_cls);
+            if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
+                $label = 'FU ' . $1;
+                $img_cls = 'fa-calendar-check-o';
+            } else {
+                $label = $textMap->{$entry->key};
+                $img_cls = $imgMap->{$entry->key};
+            }
+</%perl>
 			<!-- KEY: <% $entry->key %> -->
-    		<a style="background: #e4e4e4 url(<& .image, key=>$entry->key &>) center 0px no-repeat;" title="<% $entry->title %>" name="<% $entry->title %>" class="rtx-quickaccess-button" href="<% $baseUrl %><% $entry->path %>">
-    			<% $label %>
+    		<a
+                style=""
+                title="<% $entry->title %>" 
+                name="<% $entry->title %>"
+                class="rtx-quickaccess-button"
+                href="<% $baseUrl %><% $entry->path %>">
+                    <span class="fa <% $img_cls %>"></span>
+                    <% $label %>
     		</a>
-%	if (++$i % 6 eq 0) {
-		<br />
-%	}
 % }
 </&>
 <%init>
@@ -43,20 +67,20 @@
     my $imgUrl = $baseUrl. 'NoAuth/RTx-TicketActions/images/';
     
     my $imgMap = {
-    	'reply'                => 'mail',
-    	'comment'              => 'comment',
-    	'forward'              => 'forward',
-    	'Open It'              => 'open',
-    	'Resolve'              => 'resolve',
-    	'Reject'               => 'reject',
-    	'Delete'               => 'delete',
-    	'take'                 => 'take',
-    	'Re-open'              => 're-open',
-    	'Stall'                => 'stall',
-    	'extract-article'      => 'extract',
-    	'rtx_quick_resolve'    => 'quick-resolve',
-    	'steal'                => 'steal',
-    	'Undelete'             => 'undelete'
+    	'reply'                => 'fa-envelope',
+    	'comment'              => 'fa-comment',
+    	'forward'              => 'fa-share',
+    	'Open It'              => 'fa-folder-open',
+    	'Resolve'              => 'fa-check',
+    	'Reject'               => 'fa-ban',
+    	'Delete'               => 'fa-remove',
+    	'take'                 => 'fa-star',
+    	'Re-open'              => 'fa-refresh',
+    	'Stall'                => 'fa-pause',
+    	'extract-article'      => 'fa-copy',
+    	'rtx_quick_resolve'    => 'fa-check-circle',
+    	'steal'                => 'fa-user-secret',
+    	'Undelete'             => 'fa-recycle'
     };
     
     my $textMap = {

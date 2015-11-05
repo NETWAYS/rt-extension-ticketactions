@@ -1,0 +1,4 @@
+<%init>
+	$m->out("OK");
+	$m->abort();
+</%init>

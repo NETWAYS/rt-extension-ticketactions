@@ -29,7 +29,7 @@
 						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
 						$date->AddDays($fu_day);
 						$actions->child('rtx_actions_fu_' . $fu_day => 
-							title => 'Follow Up ' . $fu_day,
+							title => 'Follow Up (' . $fu_day . ' day' . ($fu_day > 1 ? 's' : ''). ')',
 							path => $path . "Ticket/Display.html?id=$id&Status=stalled&Due_Date=" . $date->ISO());
 					}
 				}
