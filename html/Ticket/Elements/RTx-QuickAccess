@@ -34,7 +34,7 @@ my $i = 0;
 foreach my $entry ($menu->children()) {
             my ($label, $img_cls);
             if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
-                $label = 'FU ' . $1;
+                $label = 'Due ' . $1;
                 $img_cls = 'fa-calendar-check-o';
             } else {
                 $label = $textMap->{$entry->key};
