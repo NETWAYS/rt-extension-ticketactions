@@ -19,7 +19,7 @@
 				if ($Ticket->Status ne 'resolved') {
 					$actions->child(rtx_quick_resolve => 
 						title => loc('QuickResolve'), 
-						path => $path . "Ticket/Display.html?id=$id&Status=resolved"
+						path => "Ticket/Display.html?id=$id&Status=resolved"
 					);
 				}
 				if ($Ticket->Status ne 'stalled') {
@@ -30,7 +30,7 @@
 						$date->AddDays($fu_day);
 						$actions->child('rtx_actions_fu_' . $fu_day => 
 							title => 'Follow Up (' . $fu_day . ' day' . ($fu_day > 1 ? 's' : ''). ')',
-							path => $path . "Ticket/Display.html?id=$id&Status=stalled&Due_Date=" . $date->ISO());
+							path => "Ticket/Display.html?id=$id&Status=stalled&Due_Date=" . $date->ISO());
 					}
 				}
 			}
