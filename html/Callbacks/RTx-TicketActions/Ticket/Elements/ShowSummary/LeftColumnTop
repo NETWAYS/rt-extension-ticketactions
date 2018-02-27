@@ -1,9 +1,0 @@
-<& /Ticket/Elements/RTx-QuickAccess, Ticket => $Ticket &>
-<%init>
-	unless(RT->Config->Get('RTx_TicketActions_ShowQuickAccess')) {
-		return;
-	}
-</%init>
-<%args>
-	$Ticket=>undef
-</%args>

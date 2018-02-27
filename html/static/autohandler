@@ -1,0 +1,15 @@
+<%INIT>
+use RT::Interface::REST;
+
+my $file = $m->base_comp->source_file;
+
+if ($file =~ /\.(css)$/i) {
+  $r->content_type('text/css; charset=utf-8');
+} elsif ($file =~ /\.(js)$/i) {
+    $r->content_type('application/javascript; charset=utf-8');
+}
+
+$m->error_format('text');
+$m->call_next();
+$m->abort();
+</%INIT>
