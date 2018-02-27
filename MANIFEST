@@ -1,3 +1,6 @@
+doc/quickaction-box.png
+html/Callbacks/RT-Extension-TicketActions/Elements/Tabs/Privileged
+html/Callbacks/RT-Extension-TicketActions/Ticket/Elements/ShowSummary/LeftColumnTop
 html/Callbacks/RTx-TicketActions/Elements/Tabs/Privileged
 html/Callbacks/RTx-TicketActions/Ticket/Elements/ShowSummary/LeftColumnTop
 html/NoAuth/RTx-TicketActions/images/autohandler
@@ -16,6 +19,21 @@ html/NoAuth/RTx-TicketActions/images/steal.png
 html/NoAuth/RTx-TicketActions/images/take.png
 html/NoAuth/RTx-TicketActions/images/undelete.png
 html/NoAuth/RTx-TicketActions/images/x-unknown.png
+html/static/autohandler
+html/static/css/ticketactions.css
+html/static/js/fontawesome-svg/css/fa-svg-with-js.css
+html/static/js/fontawesome-svg/js/fa-brands.js
+html/static/js/fontawesome-svg/js/fa-brands.min.js
+html/static/js/fontawesome-svg/js/fa-regular.js
+html/static/js/fontawesome-svg/js/fa-regular.min.js
+html/static/js/fontawesome-svg/js/fa-solid.js
+html/static/js/fontawesome-svg/js/fa-solid.min.js
+html/static/js/fontawesome-svg/js/fa-v4-shims.js
+html/static/js/fontawesome-svg/js/fa-v4-shims.min.js
+html/static/js/fontawesome-svg/js/fontawesome-all.js
+html/static/js/fontawesome-svg/js/fontawesome-all.min.js
+html/static/js/fontawesome-svg/js/fontawesome.js
+html/static/js/fontawesome-svg/js/fontawesome.min.js
 html/Ticket/Elements/RTx-QuickAccess
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -31,6 +49,9 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 inc/unicore/Name.pm
 inc/YAML/Tiny.pm
+lib/RT/Extension/TicketActions.pm
 lib/RTx/TicketActions.pm
 Makefile.PL
 MANIFEST			This list of files
+META.yml
+README.md

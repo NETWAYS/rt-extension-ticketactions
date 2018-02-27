@@ -19,4 +19,4 @@ no_index:
     - inc
 requires: {}
 version: v1.0.0
-x_serialization_backend: 'CPAN::Meta::YAML version 0.016'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
