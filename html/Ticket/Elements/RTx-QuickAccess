@@ -1,33 +1,3 @@
-<style type="text/css">
-	.rtx-quickaccess-button {
-		display: inline-block;
-		border: 1px #c1c1c1 solid;
-		white-space: nowrap;
-        color: #666;
-        text-align: center;
-        padding: 6px;
-        margin: 6px 2px 0 0;
-        width: 70px;
-        text-decoration: none !important;
-	}
-
-    .rtx-quickaccess-button:visited {
-        color: #666 !important;
-    }
-
-    .rtx-quickaccess-button:hover {
-        background-color: #f1f1f1;
-        -o-transition:.5s;
-        -ms-transition:.5s;
-        -moz-transition:.5s;
-        -webkit-transition:.5s;
-        transition:.5s;
-    }
-
-    .rtx-quickaccess-button:hover span {
-        color: #ff8000;
-    }
-</style>
 <&| /Widgets/TitleBox, title => loc('Quick Actions'), class => 'ticket-info-basics' &>
 <%perl>
 my $i = 0;
@@ -35,7 +5,7 @@ foreach my $entry ($menu->children()) {
             my ($label, $img_cls);
             if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
                 $label = 'Due ' . $1;
-                $img_cls = 'fa-calendar-check-o';
+                $img_cls = 'fa-calendar-plus';
             } else {
                 $label = $textMap->{$entry->key};
                 $img_cls = $imgMap->{$entry->key};
@@ -44,7 +14,7 @@ foreach my $entry ($menu->children()) {
 			<!-- KEY: <% $entry->key %> -->
     		<a
                 style=""
-                title="<% $entry->title %>" 
+                title="<% $entry->title %>"
                 name="<% $entry->title %>"
                 class="rtx-quickaccess-button"
                 href="<% $baseUrl %><% $entry->path %>">
@@ -55,17 +25,17 @@ foreach my $entry ($menu->children()) {
 </&>
 <%init>
 	my $menu = PageMenu()->child('actions');
-	    
+
     unless ($menu) {
     	return;
     }
 </%init>
 <%once>
 	use Data::Dumper;
-	
+
     my $baseUrl = RT->Config->Get('WebURL');
     my $imgUrl = $baseUrl. 'NoAuth/RTx-TicketActions/images/';
-    
+
     my $imgMap = {
     	'reply'                => 'fa-envelope',
     	'comment'              => 'fa-comment',
@@ -73,16 +43,17 @@ foreach my $entry ($menu->children()) {
     	'Open It'              => 'fa-folder-open',
     	'Resolve'              => 'fa-check',
     	'Reject'               => 'fa-ban',
-    	'Delete'               => 'fa-remove',
+    	'Delete'               => 'fa-trash-alt',
     	'take'                 => 'fa-star',
     	'Re-open'              => 'fa-refresh',
     	'Stall'                => 'fa-pause',
     	'extract-article'      => 'fa-copy',
     	'rtx_quick_resolve'    => 'fa-check-circle',
     	'steal'                => 'fa-user-secret',
-    	'Undelete'             => 'fa-recycle'
+    	'Undelete'             => 'fa-recycle',
+			'untake'							 => 'fa-cloud-upload-alt'
     };
-    
+
     my $textMap = {
     	'reply' => 'Reply',
     	'comment'              => 'Comment',
@@ -97,7 +68,8 @@ foreach my $entry ($menu->children()) {
     	'extract-article'      => 'Extract',
     	'rtx_quick_resolve'    => 'QR!',
     	'steal'                => 'Steal',
-    	'Undelete'             => 'Undelete'
+    	'Undelete'             => 'Undelete',
+			'untake'							 => 'Untake'
     };
 </%once>
 <%args>

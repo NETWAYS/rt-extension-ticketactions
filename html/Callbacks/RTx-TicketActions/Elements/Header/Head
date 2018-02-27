@@ -1,6 +1,0 @@
-<link rel="stylesheet" href="<% $url %>" />
-<%init>
-	my $url = RT->Config->Get('RTx_TicketActions_FontAwesome');
-	$url = RT->Config->Get('WebPath') . '/NoAuth/RTx-TicketActions/font-awesome/css/font-awesome.min.css'
-		unless ($url);
-</%init>
