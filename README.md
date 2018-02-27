@@ -6,6 +6,13 @@ RequestTracker plugin to provide easy access to ticket actions:
 
 ## Quickstart
 
+Install:
+
+    # perl Makefile.PL
+    # make install
+
+Changes in RT configuration file:
+
     Plugin('RT::Extension::TicketActions');
     Set($TA_ShowQuickAccess, 1);
 
@@ -28,8 +35,8 @@ or escalations to bring tickets up to users.
 
 ### Full example
 
-Plugin('RT::Extension::TicketActions');
+    Plugin('RT::Extension::TicketActions');
 
-Set($TA_ShowQuickAccess, 1);
-Set($TA_ShowQuickAccess, qw(1 3 10));
-Set($TA_FollowUpTime, '10:00:00');
+    Set($TA_ShowQuickAccess, 1);
+    Set($TA_ShowQuickAccess, qw(1 3 10));
+    Set($TA_FollowUpTime, '10:00:00');
