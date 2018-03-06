@@ -22,6 +22,36 @@ foreach my $entry ($menu->children()) {
                     <% $label %>
     		</a>
 % }
+<%perl>
+if (exists $session{'tickets'} && exists $session{'tickets'}->ItemMap->{ $m->request_args->{'id'} }) {
+    my %urlParams = map {
+        s/([^A-Za-z0-9\-_.~ ])/ sprintf("%%%02x", ord $1) /ger =~ s/ /+/gr
+    } %{$session{'CurrentSearchHash'}};
+
+    my $queryString = join '&', map { "$_=$urlParams{$_}" } keys %urlParams;
+
+</%perl>
+			<!-- KEY: Results -->
+    		<a
+                style=""
+                title="View Current Search Results"
+                name="View Current Search Results"
+                class="rtx-quickaccess-button"
+                href="<% $baseUrl %>/Search/Results.html?<% $queryString %>">
+                    <span class="fa fa-search"></span>
+                    Results
+    		</a>
+			<!-- KEY: Edit Search -->
+    		<a
+                style=""
+                title="Edit Current Search"
+                name="Edit Current Search"
+                class="rtx-quickaccess-button"
+                href="<% $baseUrl %>/Search/Build.html?<% $queryString %>">
+                    <span class="fa fa-search"></span>
+                    Edit Search
+    		</a>
+% }
 </&>
 <%init>
 	my $menu = PageMenu()->child('actions');
