@@ -1,8 +1,11 @@
 <%init>
+	use Date::Holidays;
+
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
 	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 7, 14]};
+	my $holidaysCountry = RT->Config->Get('TA_HolidaysCountry');
 	my $path = '/' . RT->Config->Get('WebPath');
 
 	return unless ($actions);
@@ -22,11 +25,43 @@
 					);
 				}
 				if ($Ticket->Status ne 'stalled') {
+					my $holidaysRepo;
+					my %holidays = ();
+					if (defined $holidaysCountry) {
+						$holidaysRepo = Date::Holidays->new(countrycode => $holidaysCountry);
+					}
+
 					foreach my $fu_day (@follow_up_days) {
 						my $date = RT::Date->new($session{'CurrentUser'});
 						$date->SetToNow();
 						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
 						$date->AddDays($fu_day);
+
+						if (defined $holidaysRepo) {
+							while ($date->ISO() =~ /^(\d+)-(\d+-\d+)/) {
+								my ($year, $day) = ($1, $2);
+
+								if (! exists $holidays{$year}) {
+									$holidays{$year} = {};
+
+									for my $holiday (@{$holidaysRepo->holidays(year => $year)}) {
+										my $holiDate = RT::Date->new($session{'CurrentUser'});
+										$holiDate->Unix($holiday);
+
+										if ($holiDate->ISO() =~ /^\d+-(\d+-\d+)/) {
+											$holidays{$year}->{$1} = 1
+										}
+									}
+								}
+
+								if (exists $holidays{$year}->{$day}) {
+									$date->AddDays(1)
+								} else {
+									last
+								}
+							}
+						}
+
 						$actions->child('rtx_actions_fu_' . $fu_day =>
 							title => 'Follow up '
 								. ($fu_day % 7 ? "$fu_day day" : ($fu_day / 7) . ' week')
