@@ -33,6 +33,26 @@
 					}
 				}
 			}
+
+			my $search = Menu()->child('search');
+			if (defined $search) {
+				my $tickets = $search->child('tickets');
+				if (defined $tickets) {
+					my $prev = $tickets->child('prev');
+					if (defined $prev) {
+						$actions->child('rtx_actions_prev' =>
+							title => $prev->title =~ s/^[< ]+//r,
+							path => $prev->path);
+					}
+
+					my $next = $tickets->child('next');
+					if (defined $next) {
+						$actions->child('rtx_actions_next' =>
+							title => $next->title =~ s/[ >]+$//r,
+							path => $next->path);
+					}
+				}
+			}
 		}
 	}
 </%init>
