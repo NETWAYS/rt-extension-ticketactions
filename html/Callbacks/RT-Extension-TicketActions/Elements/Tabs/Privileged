@@ -2,7 +2,7 @@
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
-	my @follow_up_days = RT->Config->Get('TA_FollowUpDays') || qw(1 3 10);
+	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 3, 10]};
 	my $path = '/' . RT->Config->Get('WebPath');
 
 	return unless ($actions);

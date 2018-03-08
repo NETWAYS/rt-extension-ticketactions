@@ -38,5 +38,5 @@ or escalations to bring tickets up to users.
     Plugin('RT::Extension::TicketActions');
 
     Set($TA_ShowQuickAccess, 1);
-    Set($TA_ShowQuickAccess, qw(1 3 10));
+    Set($TA_FollowUpDays, [1, 3, 10]);
     Set($TA_FollowUpTime, '10:00:00');
