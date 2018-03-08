@@ -35,6 +35,7 @@ html/static/js/fontawesome-svg/js/fontawesome-all.min.js
 html/static/js/fontawesome-svg/js/fontawesome.js
 html/static/js/fontawesome-svg/js/fontawesome.min.js
 html/Ticket/Elements/RTx-QuickAccess
+html/Ticket/Elements/RTx-QuickAccessSearch
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm

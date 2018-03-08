@@ -14,7 +14,7 @@
     color: #666 !important;
 }
 
-.rtx-quickaccess-button:hover {
+.rtx-quickaccess-button:hover:not(.rtx-quickaccess-button-disabled) {
     background-color: #f1f1f1;
     -o-transition:.2s;
     -ms-transition:.2s;
@@ -23,11 +23,20 @@
     transition:.2s;
 }
 
-.rtx-quickaccess-button:hover svg {
+.rtx-quickaccess-button:hover:not(.rtx-quickaccess-button-disabled) svg {
     color: #F05E32;
     -o-transition:.2s;
     -ms-transition:.2s;
     -moz-transition:.2s;
     -webkit-transition:.2s;
     transition:.2s;
+}
+
+.rtx-quickaccess-button-disabled {
+    cursor: not-allowed;
+    color: #ccc;
+}
+
+.rtx-quickaccess-button-disabled:visited {
+    color: #ccc !important;
 }
