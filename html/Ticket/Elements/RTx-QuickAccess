@@ -7,7 +7,7 @@ foreach my $entry ($menu->children()) {
                 $label = 'Due ' . $1;
                 $img_cls = 'fa-calendar-plus';
             } else {
-                $label = $textMap->{$entry->key};
+                $label = $textMap->{$entry->key} // $entry->title;
                 $img_cls = $imgMap->{$entry->key};
             }
 </%perl>
@@ -17,7 +17,7 @@ foreach my $entry ($menu->children()) {
                 title="<% $entry->title %>"
                 name="<% $entry->title %>"
                 class="rtx-quickaccess-button"
-                href="<% $baseUrl %><% $entry->path %>">
+                href="<% $baseUrl %><% $entry->path =~ s~^/~~r %>">
                     <span class="fa <% $img_cls %>"></span>
                     <% $label %>
     		</a>
@@ -51,7 +51,9 @@ foreach my $entry ($menu->children()) {
     	'rtx_quick_resolve'    => 'fa-check-circle',
     	'steal'                => 'fa-user-secret',
     	'Undelete'             => 'fa-recycle',
-			'untake'							 => 'fa-cloud-upload-alt'
+			'untake'							 => 'fa-cloud-upload-alt',
+    	'rtx_actions_prev'     => 'fa-step-backward',
+    	'rtx_actions_next'     => 'fa-step-forward'
     };
 
     my $textMap = {
