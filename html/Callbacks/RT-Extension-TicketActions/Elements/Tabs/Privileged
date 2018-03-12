@@ -1,6 +1,4 @@
 <%init>
-	use Date::Holidays;
-
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
@@ -29,6 +27,7 @@
 					my $holidaysRepo;
 					my %holidays = ();
 					if (defined $holidaysCountry) {
+						eval 'use Date::Holidays;';
 						$holidaysRepo = Date::Holidays->new(countrycode => $holidaysCountry);
 					}
 
