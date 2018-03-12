@@ -1,13 +1,11 @@
 .rtx-quickaccess-button {
-  display: inline-block;
-  border: 1px #c1c1c1 solid;
-  white-space: nowrap;
-      color: #666;
-      text-align: center;
-      padding: 6px;
-      margin: 6px 2px 0 0;
-      width: 82px;
-      text-decoration: none !important;
+    display: inline-block;
+    width: 1.5em;
+    font-size: large;
+    color: #666;
+    text-align: center;
+    padding: 0.25em;
+    text-decoration: none !important;
 }
 
 .rtx-quickaccess-button:visited {
