@@ -2,8 +2,19 @@
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
-	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 3, 10]};
+	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 7, 14]};
 	my $path = '/' . RT->Config->Get('WebPath');
+
+	my %dow = (
+		'sun' => 0,
+		'mon' => 1,
+		'tue' => 2,
+		'wed' => 3,
+		'thu' => 4,
+		'fri' => 5,
+		'sat' => 6
+	);
+	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TA_SkipDaysOfWeek') // ['sat', 'sun']};
 
 	return unless ($actions);
 
@@ -22,17 +33,64 @@
 					);
 				}
 				if ($Ticket->Status ne 'stalled') {
+					my $holidays = holidaysCache();
+
 					foreach my $fu_day (@follow_up_days) {
 						my $date = RT::Date->new($session{'CurrentUser'});
 						$date->SetToNow();
 						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
 						$date->AddDays($fu_day);
+
+						while (exists $skipDow{
+							(localtime $date->Unix())[6] # $date's day of week (see %dow above)
+						} || isHoliday($date, $holidays)) {
+							$date->AddDays(1)
+						}
+
 						$actions->child('rtx_actions_fu_' . $fu_day =>
-							title => 'Follow Up (' . $fu_day . ' day' . ($fu_day > 1 ? 's' : ''). ')',
+							title => 'Follow up '
+								. ($fu_day % 7 ? "$fu_day day" : ($fu_day / 7) . ' week')
+								. ($fu_day == 1 || $fu_day == 7 ? '' : 's')
+								. "\n(" . $date->ISO() . ')',
 							path => "Ticket/Display.html?id=$id&Status=stalled&Due_Date=" . $date->ISO());
 					}
 				}
 			}
+		}
+	}
+
+	sub isHoliday {
+		my ($date, $cache) = @_;
+		return unless (defined($cache) && $date->ISO() =~ /^(\d+)-(\d+-\d+)/);
+
+		my ($year, $day) = ($1, $2);
+
+		unless (exists $cache->{cache}->{$year}) {
+			$cache->{cache}->{$year} = {};
+
+			for my $holiday (@{$cache->{repo}->holidays(year => $year)}) {
+				my $holiDate = RT::Date->new($session{'CurrentUser'});
+				$holiDate->Unix($holiday);
+
+				if ($holiDate->ISO() =~ /^\d+-(\d+-\d+)/) {
+					$cache->{cache}->{$year}->{$1} = 1
+				}
+			}
+		}
+
+		exists $cache->{cache}->{$year}->{$day}
+	}
+
+	sub holidaysCache {
+		my $country = RT->Config->Get('TA_HolidaysCountry');
+		return unless (defined $country);
+
+		eval 'use Date::Holidays; 1' or die $@;
+		local $SIG{__WARN__} = sub { die $_[0] };
+
+		{
+			repo  => Date::Holidays->new(countrycode => $country),
+			cache => {}
 		}
 	}
 </%init>

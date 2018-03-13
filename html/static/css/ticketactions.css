@@ -41,6 +41,7 @@
     white-space: nowrap;
     font-size: small;
     color: #666;
+    white-space: pre;
 }
 
 *:not(:hover) .rtx-quickaccess-tooltip,
