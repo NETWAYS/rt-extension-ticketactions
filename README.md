@@ -30,13 +30,17 @@ Date::Holidays::DE in case of German holidays.
 
 ## Configuration
 
-| Key                 | Type    | Description                           |
-|---------------------|---------|---------------------------------------|
-| TA\_ShowQuickAccess | Boolean | Enable the box if true                |
-| TA\_FollowUpDays    | Array   | List of follow-up action              |
-| TA\_FollowUpTime    | String  | Time of day when follow-up is reached |
-| TA\_HolidaysCountry | String  | Country to skip holidays of           |
-| TA\_SkipDaysOfWeek  | Array   | Days of week to skip                  |
+| Key                 | Type    | Description                            |
+|---------------------|---------|----------------------------------------|
+| TA\_ShowQuickAccess | Boolean | Enable the box if true (`1`)           |
+| TA\_FollowUpDays    | Array   | List of follow-up action days,         |
+|                     |         | e.g. `[1, 3, 10]` days                 |
+| TA\_FollowUpTime    | String  | Time of day when follow-up is reached, |
+|                     |         | e.g. `'10:00:00'`                      |
+| TA\_HolidaysCountry | String  | Country to skip holidays of            |
+|                     |         | (ISO 3361 country code, e.g. `'DE'`)   |
+| TA\_SkipDaysOfWeek  | Array   | Days of week to skip,                  |
+|                     |         | e.g. `['sat', 'sun']` for the weekend  |
 
 ### Full example
 
@@ -46,4 +50,4 @@ Date::Holidays::DE in case of German holidays.
     Set($TA_FollowUpDays, [1, 3, 10]);
     Set($TA_FollowUpTime, '10:00:00');
     Set($TA_HolidaysCountry, 'DE');
-    Set($TA_SkipDaysOfWeek, ['sun']);
+    Set($TA_SkipDaysOfWeek, ['sat', 'sun']);
