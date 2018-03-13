@@ -1,13 +1,12 @@
 .rtx-quickaccess-button {
-  display: inline-block;
-  border: 1px #c1c1c1 solid;
-  white-space: nowrap;
-      color: #666;
-      text-align: center;
-      padding: 6px;
-      margin: 6px 2px 0 0;
-      width: 82px;
-      text-decoration: none !important;
+    display: inline-block;
+    width: 1.5em;
+    font-size: large;
+    color: #666;
+    text-align: center;
+    padding: 0.25em;
+    text-decoration: none !important;
+    position: relative;
 }
 
 .rtx-quickaccess-button:visited {
@@ -30,4 +29,21 @@
     -moz-transition:.2s;
     -webkit-transition:.2s;
     transition:.2s;
+}
+
+.rtx-quickaccess-tooltip {
+    position: absolute;
+    z-index: 1000;
+    margin: 0.75em 0.5em;
+    border: 1px #c1c1c1 solid;
+    padding: 0.5em;
+    background-color: #f1f1f1;
+    white-space: nowrap;
+    font-size: small;
+    color: #666;
+}
+
+*:not(:hover) .rtx-quickaccess-tooltip,
+.rtx-quickaccess-tooltip:hover {
+    display: none;
 }

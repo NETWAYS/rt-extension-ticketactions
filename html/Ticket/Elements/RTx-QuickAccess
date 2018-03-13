@@ -1,25 +1,15 @@
 <&| /Widgets/TitleBox, title => loc('Quick Actions'), class => 'ticket-info-basics' &>
-<%perl>
-my $i = 0;
-foreach my $entry ($menu->children()) {
-            my ($label, $img_cls);
-            if ($entry->key =~ m/^rtx_actions_fu_(\d+)/) {
-                $label = 'Due ' . $1;
-                $img_cls = 'fa-calendar-plus';
-            } else {
-                $label = $textMap->{$entry->key};
-                $img_cls = $imgMap->{$entry->key};
-            }
-</%perl>
+% foreach my $entry ($menu->children()) {
 			<!-- KEY: <% $entry->key %> -->
     		<a
                 style=""
-                title="<% $entry->title %>"
                 name="<% $entry->title %>"
                 class="rtx-quickaccess-button"
                 href="<% $baseUrl %><% $entry->path %>">
-                    <span class="fa <% $img_cls %>"></span>
-                    <% $label %>
+                    <span class="fa <%
+                        $entry->key =~ m/^rtx_actions_fu_(\d+)/ ? 'fa-calendar-plus' : $imgMap->{$entry->key}
+                    %>"></span>
+                    <div class="rtx-quickaccess-tooltip"><% $entry->title %></div>
     		</a>
 % }
 </&>
@@ -52,24 +42,6 @@ foreach my $entry ($menu->children()) {
     	'steal'                => 'fa-user-secret',
     	'Undelete'             => 'fa-recycle',
 			'untake'							 => 'fa-cloud-upload-alt'
-    };
-
-    my $textMap = {
-    	'reply' => 'Reply',
-    	'comment'              => 'Comment',
-    	'forward'              => 'Forward',
-    	'Open It'              => 'Open',
-    	'Resolve'              => 'Resolve',
-    	'Reject'               => 'Reject',
-    	'Delete'               => 'Delete',
-    	'take'                 => 'Take',
-    	'Re-open'              => 'Re-open',
-    	'Stall'                => 'Stall',
-    	'extract-article'      => 'Extract',
-    	'rtx_quick_resolve'    => 'QR!',
-    	'steal'                => 'Steal',
-    	'Undelete'             => 'Undelete',
-			'untake'							 => 'Untake'
     };
 </%once>
 <%args>
