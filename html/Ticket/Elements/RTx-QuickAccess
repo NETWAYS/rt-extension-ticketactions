@@ -45,7 +45,7 @@ foreach my $entry ($menu->children()) {
     	'Reject'               => 'fa-ban',
     	'Delete'               => 'fa-trash-alt',
     	'take'                 => 'fa-star',
-    	'Re-open'              => 'fa-refresh',
+    	'Re-open'              => 'fa-sync-alt',
     	'Stall'                => 'fa-pause',
     	'extract-article'      => 'fa-copy',
     	'rtx_quick_resolve'    => 'fa-check-circle',
