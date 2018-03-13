@@ -5,7 +5,7 @@
                 style=""
                 name="<% $entry->title %>"
                 class="rtx-quickaccess-button"
-                href="<% $baseUrl %><% $entry->path %>">
+                href="<% $baseUrl %><% $entry->path =~ s~^/~~r %>">
                     <span class="fa <%
                         $entry->key =~ m/^rtx_actions_fu_(\d+)/ ? 'fa-calendar-plus' : $imgMap->{$entry->key}
                     %>"></span>
