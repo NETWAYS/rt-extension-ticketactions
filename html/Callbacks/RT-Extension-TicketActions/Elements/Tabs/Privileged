@@ -14,7 +14,7 @@
 		'fri' => 5,
 		'sat' => 6
 	);
-	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TA_SkipDow') // ['sat', 'sun']};
+	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TA_SkipDaysOfWeek') // ['sat', 'sun']};
 
 	return unless ($actions);
 
