@@ -1,0 +1,89 @@
+<&| /Widgets/TitleBox, title => $currentSearch->title, class => 'ticket-info-basics' &>
+% for my $action (qw(first prev results edit_search next last)) {
+    <a
+        style=""
+        name="<% $action %>"
+% if (exists $links{$action}) {
+        class="rtx-quickaccess-button"
+        href="<% $baseUrl %><% $links{$action} =~ s~^/~~r %>">
+% } else {
+        class="rtx-quickaccess-button rtx-quickaccess-button-disabled"
+        href="#">
+% }
+        <span class="fa fa-<% $icons{$action} %>"></span>
+% if (exists $titles{$action}) {
+        <div class="rtx-quickaccess-tooltip"><% $titles{$action} %></div>
+% }
+    </a>
+% }
+</&>
+<%init>
+my $ticket = $session{'tickets'} && $session{'tickets'}->ItemMap->{$m->request_args->{'id'}};
+if (! ($ticket && $ticket->{'defined'})) {
+    return;
+}
+
+my $search = Menu()->child('search');
+if (! defined $search) {
+    return;
+}
+
+my $tickets = $search->child('tickets');
+if (! defined $tickets) {
+    return;
+}
+
+my $currentSearch = $tickets->child('current_search');
+if (! defined $currentSearch) {
+    return;
+}
+
+my %links = ();
+my %titles = ();
+my $child;
+
+if (defined($child = $tickets->child('first'))) {
+    $links{'first'} = $child->path;
+    $titles{'first'} = $child->title =~ s/^[< ]+//r;
+}
+
+if (defined($child = $tickets->child('prev'))) {
+    $links{'prev'} = $child->path;
+    $titles{'prev'} = $child->title =~ s/^[< ]+//r;
+}
+
+if (defined($child = $currentSearch->child('results'))) {
+    $links{'results'} = $child->path;
+    $titles{'results'} = $child->title;
+}
+
+if (defined($child = $currentSearch->child('edit_search'))) {
+    $links{'edit_search'} = $child->path;
+    $titles{'edit_search'} = $child->title;
+}
+
+if (defined($child = $tickets->child('next'))) {
+    $links{'next'} = $child->path;
+    $titles{'next'} = $child->title =~ s/[ >]+$//r;
+}
+
+if (defined($child = $tickets->child('last'))) {
+    $links{'last'} = $child->path;
+    $titles{'last'} = $child->title =~ s/[ >]+$//r;
+}
+
+if (! scalar keys %links) {
+    return;
+}
+
+my $baseUrl = RT->Config->Get('WebURL');
+
+my %icons = (
+    'first'       => 'fast-backward',
+    'prev'        => 'step-backward',
+    'results'     => 'list-ol',
+    'edit_search' => 'edit',
+    'next'        => 'step-forward',
+    'last'        => 'fast-forward'
+);
+</%init>
