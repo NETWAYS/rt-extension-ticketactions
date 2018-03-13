@@ -3,8 +3,18 @@
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
 	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 7, 14]};
-	my %skipDow = map { $_ => 1 } @{RT->Config->Get('TA_SkipDow') // [6, 0]};
 	my $path = '/' . RT->Config->Get('WebPath');
+
+	my %dow = (
+		'sun' => 0,
+		'mon' => 1,
+		'tue' => 2,
+		'wed' => 3,
+		'thu' => 4,
+		'fri' => 5,
+		'sat' => 6
+	);
+	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TA_SkipDow') // ['sat', 'sun']};
 
 	return unless ($actions);
 
