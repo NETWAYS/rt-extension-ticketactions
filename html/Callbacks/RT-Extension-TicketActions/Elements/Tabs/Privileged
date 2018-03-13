@@ -41,8 +41,9 @@
 						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
 						$date->AddDays($fu_day);
 
-						while (exists $skipDow{(localtime $date->Unix())[6]}
-							|| isHoliday($date, $holidays)) {
+						while (exists $skipDow{
+							(localtime $date->Unix())[6] # $date's day of week (see %dow above)
+						} || isHoliday($date, $holidays)) {
 							$date->AddDays(1)
 						}
 
