@@ -14,7 +14,6 @@ Install:
 Changes in RT configuration file:
 
     Plugin('RT::Extension::TicketActions');
-    Set($TA_ShowQuickAccess, 1);
 
 ### Follow-Up Actions (Due)
 
@@ -32,7 +31,6 @@ Date::Holidays::DE in case of German holidays.
 
 | Key                 | Type    | Description                            |
 |---------------------|---------|----------------------------------------|
-| TA\_ShowQuickAccess | Boolean | Enable the box if true (`1`)           |
 | TA\_FollowUpDays    | Array   | List of follow-up action days,         |
 |                     |         | e.g. `[1, 3, 10]` days                 |
 | TA\_FollowUpTime    | String  | Time of day when follow-up is reached, |
@@ -46,7 +44,6 @@ Date::Holidays::DE in case of German holidays.
 
     Plugin('RT::Extension::TicketActions');
 
-    Set($TA_ShowQuickAccess, 1);
     Set($TA_FollowUpDays, [1, 3, 10]);
     Set($TA_FollowUpTime, '10:00:00');
     Set($TA_HolidaysCountry, 'DE');

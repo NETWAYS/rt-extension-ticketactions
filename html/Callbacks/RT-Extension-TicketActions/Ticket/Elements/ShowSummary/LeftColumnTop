@@ -1,10 +1,5 @@
 <& /Ticket/Elements/RTx-QuickAccess, Ticket => $Ticket &>
 <& /Ticket/Elements/RTx-QuickAccessSearch &>
-<%init>
-	unless(RT->Config->Get('TA_ShowQuickAccess')) {
-		return;
-	}
-</%init>
 <%args>
 	$Ticket=>undef
 </%args>
