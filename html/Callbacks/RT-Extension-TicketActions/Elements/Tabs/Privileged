@@ -85,7 +85,7 @@
 		my $country = RT->Config->Get('TA_HolidaysCountry');
 		return unless (defined $country);
 
-		eval 'use Date::Holidays';
+		eval 'use Date::Holidays; 1' or die $@;
 		local $SIG{__WARN__} = sub { die $_[0] };
 
 		{
