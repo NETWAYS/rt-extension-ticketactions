@@ -2,9 +2,6 @@
 % for my $action (qw(first prev results edit_search next last)) {
     <a
         style=""
-% if (exists $titles{$action}) {
-        title="<% $titles{$action} %>"
-% }
         name="<% $action %>"
 % if (exists $links{$action}) {
         class="rtx-quickaccess-button"
@@ -14,6 +11,9 @@
         href="#">
 % }
         <span class="fa fa-<% $icons{$action} %>"></span>
+% if (exists $titles{$action}) {
+        <div class="rtx-quickaccess-tooltip"><% $titles{$action} %></div>
+% }
     </a>
 % }
 </&>
