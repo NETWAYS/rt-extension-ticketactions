@@ -4,7 +4,6 @@
 	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
 	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 7, 14]};
 	my %skipDow = map { $_ => 1 } @{RT->Config->Get('TA_SkipDow') // [6, 0]};
-	my $holidaysCountry = RT->Config->Get('TA_HolidaysCountry');
 	my $path = '/' . RT->Config->Get('WebPath');
 
 	return unless ($actions);
@@ -24,12 +23,7 @@
 					);
 				}
 				if ($Ticket->Status ne 'stalled') {
-					my $holidaysRepo;
-					my %holidays = ();
-					if (defined $holidaysCountry) {
-						eval 'use Date::Holidays;';
-						$holidaysRepo = Date::Holidays->new(countrycode => $holidaysCountry);
-					}
+					my $holidays = holidaysCache();
 
 					foreach my $fu_day (@follow_up_days) {
 						my $date = RT::Date->new($session{'CurrentUser'});
@@ -37,30 +31,9 @@
 						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
 						$date->AddDays($fu_day);
 
-						if (defined $holidaysRepo) {
-							while ($date->ISO() =~ /^(\d+)-(\d+-\d+)/) {
-								my ($year, $day) = ($1, $2);
-
-								if (! exists $holidays{$year}) {
-									$holidays{$year} = {};
-
-									for my $holiday (@{$holidaysRepo->holidays(year => $year)}) {
-										my $holiDate = RT::Date->new($session{'CurrentUser'});
-										$holiDate->Unix($holiday);
-
-										if ($holiDate->ISO() =~ /^\d+-(\d+-\d+)/) {
-											$holidays{$year}->{$1} = 1
-										}
-									}
-								}
-
-								if (exists $skipDow{(localtime $date->Unix())[6]}
-									|| exists $holidays{$year}->{$day}) {
-									$date->AddDays(1)
-								} else {
-									last
-								}
-							}
+						while (exists $skipDow{(localtime $date->Unix())[6]}
+							|| isHoliday($date, $holidays)) {
+							$date->AddDays(1)
 						}
 
 						$actions->child('rtx_actions_fu_' . $fu_day =>
@@ -72,6 +45,41 @@
 					}
 				}
 			}
+		}
+	}
+
+	sub isHoliday {
+		my ($date, $cache) = @_;
+		return unless (defined($cache) && $date->ISO() =~ /^(\d+)-(\d+-\d+)/);
+
+		my ($year, $day) = ($1, $2);
+
+		unless (exists $cache->{cache}->{$year}) {
+			$cache->{cache}->{$year} = {};
+
+			for my $holiday (@{$cache->{repo}->holidays(year => $year)}) {
+				my $holiDate = RT::Date->new($session{'CurrentUser'});
+				$holiDate->Unix($holiday);
+
+				if ($holiDate->ISO() =~ /^\d+-(\d+-\d+)/) {
+					$cache->{cache}->{$year}->{$1} = 1
+				}
+			}
+		}
+
+		exists $cache->{cache}->{$year}->{$day}
+	}
+
+	sub holidaysCache {
+		my $country = RT->Config->Get('TA_HolidaysCountry');
+		return unless (defined $country);
+
+		eval 'use Date::Holidays';
+		local $SIG{__WARN__} = sub { die $_[0] };
+
+		{
+			repo  => Date::Holidays->new(countrycode => $country),
+			cache => {}
 		}
 	}
 </%init>
