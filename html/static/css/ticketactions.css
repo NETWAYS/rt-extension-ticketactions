@@ -1,4 +1,4 @@
-.rtx-quickaccess-button {
+.rt-extension-quickaccess-button {
     display: inline-block;
     width: 1.5em;
     font-size: large;
@@ -9,11 +9,11 @@
     position: relative;
 }
 
-.rtx-quickaccess-button:visited {
+.rt-extension-quickaccess-button:visited {
     color: #666 !important;
 }
 
-.rtx-quickaccess-button:hover:not(.rtx-quickaccess-button-disabled) {
+.rt-extension-quickaccess-button:hover:not(.rt-extension-quickaccess-button-disabled) {
     background-color: #f1f1f1;
     -o-transition:.2s;
     -ms-transition:.2s;
@@ -22,7 +22,7 @@
     transition:.2s;
 }
 
-.rtx-quickaccess-button:hover:not(.rtx-quickaccess-button-disabled) svg {
+.rt-extension-quickaccess-button:hover:not(.rt-extension-quickaccess-button-disabled) svg {
     color: #F05E32;
     -o-transition:.2s;
     -ms-transition:.2s;
@@ -31,7 +31,7 @@
     transition:.2s;
 }
 
-.rtx-quickaccess-tooltip {
+.rt-extension-quickaccess-tooltip {
     position: absolute;
     z-index: 1000;
     margin: 0.75em 0.5em;
@@ -44,16 +44,16 @@
     white-space: pre;
 }
 
-*:not(:hover) .rtx-quickaccess-tooltip,
-.rtx-quickaccess-tooltip:hover {
+*:not(:hover) .rt-extension-quickaccess-tooltip,
+.rt-extension-quickaccess-tooltip:hover {
     display: none;
 }
 
-.rtx-quickaccess-button-disabled {
+.rt-extension-quickaccess-button-disabled {
     cursor: not-allowed;
     color: #ccc;
 }
 
-.rtx-quickaccess-button-disabled:visited {
+.rt-extension-quickaccess-button-disabled:visited {
     color: #ccc !important;
 }

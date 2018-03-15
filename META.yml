@@ -1,5 +1,5 @@
 ---
-abstract: 'RTx-TicketActions Extension'
+abstract: 'RT-Extension-TicketActions Extension'
 author:
   - 'Marius Hein <marius.hein@netways.de>, Marius Hein <marius.hein@netways.de>'
 build_requires:
@@ -12,7 +12,7 @@ license: open_source
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
-name: RTx-TicketActions
+name: RT-Extension-TicketActions
 no_index:
   directory:
     - t
