@@ -4,15 +4,15 @@
         style=""
         name="<% $action %>"
 % if (exists $links{$action}) {
-        class="rtx-quickaccess-button"
+        class="rt-extension-quickaccess-button"
         href="<% $baseUrl %><% $links{$action} =~ s~^/~~r %>">
 % } else {
-        class="rtx-quickaccess-button rtx-quickaccess-button-disabled"
+        class="rt-extension-quickaccess-button rt-extension-quickaccess-button-disabled"
         href="#">
 % }
         <span class="fa fa-<% $icons{$action} %>"></span>
 % if (exists $titles{$action}) {
-        <div class="rtx-quickaccess-tooltip"><% $titles{$action} %></div>
+        <div class="rt-extension-quickaccess-tooltip"><% $titles{$action} %></div>
 % }
     </a>
 % }

@@ -27,7 +27,7 @@
 
 			if ($Ticket->CurrentUserHasRight('ModifyTicket')) {
 				if ($Ticket->Status ne 'resolved') {
-					$actions->child(rtx_quick_resolve =>
+					$actions->child(rt_extension_quick_resolve =>
 						title => loc('QuickResolve'),
 						path => "Ticket/Display.html?id=$id&Status=resolved"
 					);
@@ -47,7 +47,7 @@
 							$date->AddDays(1)
 						}
 
-						$actions->child('rtx_actions_fu_' . $fu_day =>
+						$actions->child('rt_extension_actions_fu_' . $fu_day =>
 							title => 'Follow up '
 								. ($fu_day % 7 ? "$fu_day day" : ($fu_day / 7) . ' week')
 								. ($fu_day == 1 || $fu_day == 7 ? '' : 's')

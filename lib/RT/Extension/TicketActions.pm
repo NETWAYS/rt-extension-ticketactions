@@ -15,7 +15,7 @@ RT->AddStyleSheets('ticketactions.css');
 
 =head1 NAME
 
-RTx::TicketActions
+RT::Extension::TicketActions
 
 =head1 VERSION
 
