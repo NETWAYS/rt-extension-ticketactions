@@ -1,22 +1,28 @@
 ---
 abstract: 'RT-Extension-TicketActions Extension'
 author:
-  - 'Marius Hein <marius.hein@netways.de>, Marius Hein <marius.hein@netways.de>'
+  - 'NETWAYS GmbH L<support@netways.de|mailto:support@netways.de>'
 build_requires:
-  ExtUtils::MakeMaker: '6.36'
+  ExtUtils::MakeMaker: 6.59
 configure_requires:
-  ExtUtils::MakeMaker: '0'
+  ExtUtils::MakeMaker: 6.59
+distribution_type: module
 dynamic_config: 0
-generated_by: 'ExtUtils::MakeMaker version 6.68, CPAN::Meta::Converter version 2.150005'
-license: open_source
+generated_by: 'Module::Install version 1.19'
+license: gpl_2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: '1.4'
+  version: 1.4
 name: RT-Extension-TicketActions
 no_index:
   directory:
-    - t
+    - html
     - inc
-requires: {}
-version: v1.0.0
-x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
+requires:
+  perl: 5.10.1
+resources:
+  license: http://opensource.org/licenses/gpl-license.php
+  repository: https://github.com/NETWAYS/rt-extension-ticketactions
+version: 1.0.1
+x_module_install_rtx_version: '0.40'
+x_requires_rt: 4.4.2

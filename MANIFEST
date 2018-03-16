@@ -1,24 +1,6 @@
 doc/quickaction-box.png
 html/Callbacks/RT-Extension-TicketActions/Elements/Tabs/Privileged
 html/Callbacks/RT-Extension-TicketActions/Ticket/Elements/ShowSummary/LeftColumnTop
-html/Callbacks/RT-Extension-TicketActions/Elements/Tabs/Privileged
-html/Callbacks/RT-Extension-TicketActions/Ticket/Elements/ShowSummary/LeftColumnTop
-html/NoAuth/RT-Extension-TicketActions/images/autohandler
-html/NoAuth/RT-Extension-TicketActions/images/comment.png
-html/NoAuth/RT-Extension-TicketActions/images/delete.png
-html/NoAuth/RT-Extension-TicketActions/images/extract.png
-html/NoAuth/RT-Extension-TicketActions/images/forward.png
-html/NoAuth/RT-Extension-TicketActions/images/mail.png
-html/NoAuth/RT-Extension-TicketActions/images/open.png
-html/NoAuth/RT-Extension-TicketActions/images/quick-resolve.png
-html/NoAuth/RT-Extension-TicketActions/images/re-open.png
-html/NoAuth/RT-Extension-TicketActions/images/reject.png
-html/NoAuth/RT-Extension-TicketActions/images/resolve.png
-html/NoAuth/RT-Extension-TicketActions/images/stall.png
-html/NoAuth/RT-Extension-TicketActions/images/steal.png
-html/NoAuth/RT-Extension-TicketActions/images/take.png
-html/NoAuth/RT-Extension-TicketActions/images/undelete.png
-html/NoAuth/RT-Extension-TicketActions/images/x-unknown.png
 html/static/autohandler
 html/static/css/ticketactions.css
 html/static/js/fontawesome-svg/css/fa-svg-with-js.css
@@ -48,10 +30,10 @@ inc/Module/Install/RTx.pm
 inc/Module/Install/RTx/Runtime.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
-inc/unicore/Name.pm
 inc/YAML/Tiny.pm
 lib/RT/Extension/TicketActions.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
+README
 README.md
