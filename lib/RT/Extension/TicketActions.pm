@@ -9,29 +9,81 @@ our $VERSION="1.0.1";
 RT->AddJavaScript('fontawesome-svg/js/fontawesome-all.min.js');
 RT->AddStyleSheets('ticketactions.css');
 
-1;
-
 =pod
 
 =head1 NAME
 
 RT::Extension::TicketActions
 
-=head1 VERSION
+=head1 DESCRIPTION
 
-version 1.0.1
+A simple extension that works with RT 4.4.2 which provides easy access to
+frequently used ticket actions.
+
+=head1 RT VERSION
+
+Works with RT 4.4.2
+
+=head1 INSTALLATION
+
+=over
+
+=item C<perl Makefile.PL>
+
+=item C<make>
+
+=item C<make install>
+
+May need root permissions
+
+=item Edit your F</opt/rt4/etc/RT_SiteConfig.pm>
+
+Add this line:
+
+    Plugin('RT::Extension::TicketActions');
+
+=item Clear your mason cache
+
+    rm -rf /opt/rt4/var/mason_data/obj
+
+=item Restart your webserver
+
+=back
+
+=head1 CONFIGURATION
+
+=head2 C<$TA_FollowUpDays>
+
+List of follow-up action days, e.g. C<[1, 3, 10]> days
+
+=head2 C<$TA_FollowUpTime>
+
+Time of day when follow-up is reached, e.g. C<'10:00:00'>
+
+=head2 C<$TA_HolidaysCountry>
+
+Country to skip holidays of (ISO 3361 country code, e.g. C<'DE'>)
+
+=head2 C<$TA_SkipDaysOfWeek>
+
+Days of week to skip, e.g. C<['sat', 'sun']> for the weekend
 
 =head1 AUTHOR
 
-Marius Hein <marius.hein@netways.de>
+NETWAYS GmbH L<support@netways.de|mailto:support@netways.de>
 
-=head1 COPYRIGHT AND LICENSE
+=head1 BUGS
 
-This software is Copyright (c) 2012 by NETWAYS GmbH <info@netways.de>
+All bugs should be reported at L<GitHub|https://github.com/NETWAYS/rt-extension-ticketactions/issues>.
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 2018 by NETWAYS GmbH
 
 This is free software, licensed under:
-    GPL Version 2, June 1991
+
+  The GNU General Public License, Version 2, June 1991
 
 =cut
 
-__END__
+1;

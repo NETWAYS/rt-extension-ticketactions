@@ -1,0 +1,53 @@
+NAME
+    RT::Extension::TicketActions
+
+DESCRIPTION
+    A simple extension that works with RT 4.4.2 which provides easy access
+    to frequently used ticket actions.
+
+RT VERSION
+    Works with RT 4.4.2
+
+INSTALLATION
+    perl Makefile.PL
+    make
+    make install
+        May need root permissions
+
+    Edit your /opt/rt4/etc/RT_SiteConfig.pm
+        Add this line:
+
+            Plugin('RT::Extension::TicketActions');
+
+    Clear your mason cache
+            rm -rf /opt/rt4/var/mason_data/obj
+
+    Restart your webserver
+
+CONFIGURATION
+  $TA_FollowUpDays
+    List of follow-up action days, e.g. [1, 3, 10] days
+
+  $TA_FollowUpTime
+    Time of day when follow-up is reached, e.g. '10:00:00'
+
+  $TA_HolidaysCountry
+    Country to skip holidays of (ISO 3361 country code, e.g. 'DE')
+
+  $TA_SkipDaysOfWeek
+    Days of week to skip, e.g. ['sat', 'sun'] for the weekend
+
+AUTHOR
+    NETWAYS GmbH support@netways.de <mailto:support@netways.de>
+
+BUGS
+    All bugs should be reported at GitHub
+    <https://github.com/NETWAYS/rt-extension-ticketactions/issues>.
+
+LICENSE AND COPYRIGHT
+    This software is Copyright (c) 2018 by NETWAYS GmbH
+
+    This is free software, licensed under:
+
+      The GNU General Public License, Version 2, June 1991
+
