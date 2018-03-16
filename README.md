@@ -1,4 +1,4 @@
-# TicketActions Extension for Request Tracker
+# Ticket Actions Extension for Request Tracker
 
 #### Table of Contents
 
@@ -15,30 +15,34 @@ Provides easy access to frequently used ticket actions:
 
 ![Screenshot](doc/quickaction-box.png)
 
-Also so called follow-up actions set the ticket to status stalled and add a
+Also so called "follow-up actions" set the ticket status to `stalled` and add a
 relative due date with a fixed time. This means that a ticket should be due in x
-days. This combination of propertied can be used in searches or escalations to
+days. This combination of properties can be used in searches or escalations to
 bring tickets up to users.
 In addition holidays of a specific country and specific days of week can be
 skipped automatically.
 
+In addition to that, this extension provides navigation items if you have
+opened this ticket from a search result listing.
+You can navigate between search result tickets (first, previous, next, last),
+open the search result list again or even modify the search query.
+
 ## License
 
-This project is licensed under the terms of
-the GNU General Public License Version 2, Copyright held by author.
+This project is licensed under the terms of the GNU General Public License Version 2.
+
+This software is Copyright (c) 2018 by NETWAYS GmbH <[support@netways.de](mailto:support@netways.de)>.
 
 ## Support
 
-For bugs and feature requests please head over to our
-[issue tracker](https://github.com/NETWAYS/rt-extension-ticketactions/issues).
-You may also send us an email to [support@netways.de](mailto:support@netways.de)
-for general questions or to get technical support.
+For bugs and feature requests please head over to our [issue tracker](https://github.com/NETWAYS/rt-extension-ticketactions/issues).
+You may also send us an email to [support@netways.de](mailto:support@netways.de) for general questions or to get technical support.
 
 ## Requirements
 
 - RT 4.4.2
-- Holidays skipping requires the Perl module Date::Holidays and e.g.
-  Date::Holidays::DE for German holidays.
+- Holidays skipping requires the Perl module `Date::Holidays` and e.g.
+  `Date::Holidays::DE` for German holidays.
 
 ## Installation
 
@@ -83,16 +87,12 @@ systemctl restart apache2
 
 ## Configuration
 
-| Key                 | Type    | Description                            |
-|---------------------|---------|----------------------------------------|
-| TA\_FollowUpDays    | Array   | List of follow-up action days,         |
-|                     |         | e.g. `[1, 3, 10]` days                 |
-| TA\_FollowUpTime    | String  | Time of day when follow-up is reached, |
-|                     |         | e.g. `'10:00:00'`                      |
-| TA\_HolidaysCountry | String  | Country to skip holidays of            |
-|                     |         | (ISO 3361 country code, e.g. `'DE'`)   |
-| TA\_SkipDaysOfWeek  | Array   | Days of week to skip,                  |
-|                     |         | e.g. `['sat', 'sun']` for the weekend  |
+Key                            | Type    | Description
+-------------------------------|---------|---------------------------------------------------------------------
+TicketActions\_FollowUpDays    | Array   | List of follow-up action days, e.g. in `[1, 3, 10]` days.
+TicketActions\_FollowUpTime    | String  | Time of day when follow-up is reached, e.g. `'10:00:00'`.
+TicketActions\_HolidaysCountry | String  | Country to skip holidays of (ISO 3361 country code, e.g. `'DE'`) .
+TicketActions\_SkipDaysOfWeek  | Array   | Days of week to skip, e.g. `['sat', 'sun']` for the weekend.
 
 ### Full example
 
