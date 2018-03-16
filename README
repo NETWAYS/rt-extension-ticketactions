@@ -25,16 +25,16 @@ INSTALLATION
     Restart your webserver
 
 CONFIGURATION
-  $TA_FollowUpDays
+  $TicketActions_FollowUpDays
     List of follow-up action days, e.g. [1, 3, 10] days
 
-  $TA_FollowUpTime
+  $TicketActions_FollowUpTime
     Time of day when follow-up is reached, e.g. '10:00:00'
 
-  $TA_HolidaysCountry
+  $TicketActions_HolidaysCountry
     Country to skip holidays of (ISO 3361 country code, e.g. 'DE')
 
-  $TA_SkipDaysOfWeek
+  $TicketActions_SkipDaysOfWeek
     Days of week to skip, e.g. ['sat', 'sun'] for the weekend
 
 AUTHOR

@@ -99,8 +99,8 @@ systemctl restart apache2
 ```
 Plugin('RT::Extension::TicketActions');
 
-Set($TA_FollowUpDays, [1, 3, 10]);
-Set($TA_FollowUpTime, '10:00:00');
-Set($TA_HolidaysCountry, 'DE');
-Set($TA_SkipDaysOfWeek, ['sat', 'sun']);
+Set($TicketActions_FollowUpDays, [1, 3, 10]);
+Set($TicketActions_FollowUpTime, '10:00:00');
+Set($TicketActions_HolidaysCountry, 'DE');
+Set($TicketActions_SkipDaysOfWeek, ['sat', 'sun']);
 ```

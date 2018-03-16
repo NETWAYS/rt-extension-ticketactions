@@ -52,19 +52,19 @@ Add this line:
 
 =head1 CONFIGURATION
 
-=head2 C<$TA_FollowUpDays>
+=head2 C<$TicketActions_FollowUpDays>
 
 List of follow-up action days, e.g. C<[1, 3, 10]> days
 
-=head2 C<$TA_FollowUpTime>
+=head2 C<$TicketActions_FollowUpTime>
 
 Time of day when follow-up is reached, e.g. C<'10:00:00'>
 
-=head2 C<$TA_HolidaysCountry>
+=head2 C<$TicketActions_HolidaysCountry>
 
 Country to skip holidays of (ISO 3361 country code, e.g. C<'DE'>)
 
-=head2 C<$TA_SkipDaysOfWeek>
+=head2 C<$TicketActions_SkipDaysOfWeek>
 
 Days of week to skip, e.g. C<['sat', 'sun']> for the weekend
 

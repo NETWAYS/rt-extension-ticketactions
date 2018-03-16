@@ -1,8 +1,8 @@
 <%init>
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
-	my $follow_up_time = RT->Config->Get('TA_FollowUpTime') || '10:00:00';
-	my @follow_up_days = @{RT->Config->Get('TA_FollowUpDays') // [1, 7, 14]};
+	my $follow_up_time = RT->Config->Get('TicketActions_FollowUpTime') || '10:00:00';
+	my @follow_up_days = @{RT->Config->Get('TicketActions_FollowUpDays') // [1, 7, 14]};
 	my $path = '/' . RT->Config->Get('WebPath');
 
 	my %dow = (
@@ -14,7 +14,7 @@
 		'fri' => 5,
 		'sat' => 6
 	);
-	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TA_SkipDaysOfWeek') // ['sat', 'sun']};
+	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TicketActions_SkipDaysOfWeek') // ['sat', 'sun']};
 
 	return unless ($actions);
 
@@ -82,7 +82,7 @@
 	}
 
 	sub holidaysCache {
-		my $country = RT->Config->Get('TA_HolidaysCountry');
+		my $country = RT->Config->Get('TicketActions_HolidaysCountry');
 		return unless (defined $country);
 
 		eval 'use Date::Holidays; 1' or die $@;
