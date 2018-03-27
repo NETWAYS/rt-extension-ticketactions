@@ -1,7 +1,7 @@
 ---
 abstract: 'RT-Extension-TicketActions Extension'
 author:
-  - 'NETWAYS GmbH L<support@netways.de|mailto:support@netways.de>'
+  - 'NETWAYS GmbH <support@netways.de>'
 build_requires:
   ExtUtils::MakeMaker: 6.59
 configure_requires:

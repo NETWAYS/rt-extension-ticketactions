@@ -2,11 +2,26 @@ NAME
     RT::Extension::TicketActions
 
 DESCRIPTION
-    A simple extension that works with RT 4.4.2 which provides easy access
-    to frequently used ticket actions.
+    Provides easy access to frequently used ticket actions.
+
+    Also so called "follow-up" actions set the ticket status to `stalled`
+    and add a relative due date with a fixed time. This means that a ticket
+    should be due in x days. This combination of properties can be used in
+    searches or escalations to bring tickets up to users. In addition
+    holidays of a specific country and specific days of week can be skipped
+    automatically, if enabled.
+
+    In addition to that, this extension provides navigation items if you
+    have opened this ticket from a search result listing. You can navigate
+    between search result tickets (first, previous, next, last), open the
+    search result list again or even modify the search query.
 
 RT VERSION
     Works with RT 4.4.2
+
+REQUIREMENTS
+    Date::Holidays (>= 1.07)
+        If you want to enable automatic holiday skipping.
 
 INSTALLATION
     perl Makefile.PL
@@ -26,23 +41,43 @@ INSTALLATION
 
 CONFIGURATION
   $TicketActions_FollowUpDays
-    List of follow-up action days, e.g. [1, 3, 10] days
+    List of days for which to provide follow-up actions. e.g. [1, 3, 10]
+    will result in three follow-up actions: For the next day, in three days
+    and in ten days, respectively.
 
   $TicketActions_FollowUpTime
-    Time of day when follow-up is reached, e.g. '10:00:00'
+    Time of day when follow-up is reached. (e.g. '10:00:00') This should be
+    in 24-hour format.
 
   $TicketActions_HolidaysCountry
-    Country to skip holidays of (ISO 3361 country code, e.g. 'DE')
+    Country to skip holidays of. (e.g. 'DE') This should be a ISO 3166-1
+    alpha-2 country code.
 
   $TicketActions_SkipDaysOfWeek
-    Days of week to skip, e.g. ['sat', 'sun'] for the weekend
+    Days of week to skip (e.g. ['sat', 'sun']) You can choose the following
+    values:
+
+    sun (Sunday)
+    mon (Monday)
+    tue (Tuesday)
+    wed (Wednesday)
+    thu (Thursday)
+    fri (Friday)
+    sat (Saturday)
+
+  Example
+    # Enables everything provided by RT::Extension::TicketActions
+    Set($TicketActions_FollowUpDays, [1, 3, 10]);
+    Set($TicketActions_FollowUpTime, '10:00:00');
+    Set($TicketActions_HolidaysCountry, 'DE');
+    Set($TicketActions_SkipDaysOfWeek, ['sat', 'sun']);
 
 AUTHOR
-    NETWAYS GmbH support@netways.de <mailto:support@netways.de>
+    NETWAYS GmbH <support@netways.de>
 
 BUGS
-    All bugs should be reported at GitHub
-    <https://github.com/NETWAYS/rt-extension-ticketactions/issues>.
+    All bugs should be reported on GitHub
+    <https://github.com/NETWAYS/rt-extension-ticketactions>.
 
 LICENSE AND COPYRIGHT
     This software is Copyright (c) 2018 by NETWAYS GmbH
