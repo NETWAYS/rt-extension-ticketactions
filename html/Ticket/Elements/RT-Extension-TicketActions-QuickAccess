@@ -6,9 +6,16 @@
                 name="<% $entry->title %>"
                 class="rt-extension-quickaccess-button"
                 href="<% $baseUrl %><% $entry->path =~ s~^/~~r %>">
-                    <span class="fa <%
-                        $entry->key =~ m/^rt_extension_actions_fu_(\d+)/ ? 'fa-calendar-plus' : $imgMap->{$entry->key}
-                    %>"></span>
+% my $isDue = $entry->key =~ m/^rt_extension_actions_fu_(\d+)/;
+% if ($isDue) {
+%   my $dueDays = $1;
+                    <span class="fa-layers fa-fw">
+                        <span class="fa fa-calendar"></span>
+                        <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-8 down-3"><% $dueDays %></span>
+                    </span>
+% } else {
+                    <span class="fa <% $imgMap->{$entry->key} %>"></span>
+% }
                     <div class="rt-extension-quickaccess-tooltip"><% $entry->title %></div>
     		</a>
 % }
