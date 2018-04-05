@@ -9,6 +9,10 @@
     position: relative;
 }
 
+.rt-extension-quickaccess-button .fa-layers-text {
+    font-weight: 900;
+}
+
 .rt-extension-quickaccess-button:visited {
     color: #666 !important;
 }
