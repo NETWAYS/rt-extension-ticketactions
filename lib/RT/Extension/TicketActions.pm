@@ -5,7 +5,7 @@ use strict;
 use version;
 use RT;
 
-our $VERSION='2.0.1';
+our $VERSION='2.0.2';
 
 RT->AddJavaScript('fontawesome-svg/js/fontawesome-all.min.js');
 RT->AddStyleSheets('ticketactions.css');
