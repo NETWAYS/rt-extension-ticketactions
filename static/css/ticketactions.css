@@ -1,12 +1,14 @@
 .rt-extension-quickaccess-button {
     display: inline-block;
-    width: 1.5em;
+    width: 1.65em;
     font-size: large;
     color: #666;
     text-align: center;
     padding: 0.25em;
+    margin-top: 0.25em;
     text-decoration: none !important;
     position: relative;
+    border: 1px #eee solid;
 }
 
 .rt-extension-quickaccess-button .fa-layers-text {
