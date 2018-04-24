@@ -5,6 +5,7 @@
                 style=""
                 name="<% $entry->title %>"
                 class="rt-extension-quickaccess-button"
+                id="rt-extension-quickaccess-button-<% lc($entry->key) %>"
                 href="<% $baseUrl %><% $entry->path =~ s~^/~~r %>">
 % my $isDue = $entry->key =~ m/^rt_extension_actions_fu_(\d+)/;
 % if ($isDue) {
@@ -48,7 +49,7 @@
     	'rt_extension_quick_resolve' => 'fa-check-circle',
     	'steal'                => 'fa-user-secret',
     	'Undelete'             => 'fa-recycle',
-			'untake'							 => 'fa-cloud-upload-alt'
+        'untake'               => 'fa-cloud-upload-alt'
     };
 </%once>
 <%args>

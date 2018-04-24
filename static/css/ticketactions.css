@@ -11,6 +11,16 @@
     border: 1px #eee solid;
 }
 
+#rt-extension-quickaccess-button-reply {
+    background-color: #fcc !important;
+    border: 1px #ccc solid;
+}
+
+#rt-extension-quickaccess-button-comment {
+    background-color: #ffffdd !important;
+    border: 1px #ccc solid;
+}
+
 .rt-extension-quickaccess-button .fa-layers-text {
     font-weight: 900;
 }
