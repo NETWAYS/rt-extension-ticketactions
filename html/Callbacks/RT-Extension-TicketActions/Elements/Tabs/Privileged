@@ -67,13 +67,9 @@
 
 		unless (exists $cache->{cache}->{$year}) {
 			$cache->{cache}->{$year} = {};
-
-			for my $holiday (@{$cache->{repo}->holidays(year => $year)}) {
-				my $holiDate = RT::Date->new($session{'CurrentUser'});
-				$holiDate->Unix($holiday);
-
-				if ($holiDate->ISO() =~ /^\d+-(\d+-\d+)/) {
-					$cache->{cache}->{$year}->{$1} = 1
+			for my $holiday (keys( %{$cache->{repo}->holidays(year => $year)} )) {
+				if ($holiday =~ /^(\d{2})(\d{2})/) {
+					$cache->{cache}->{$year}->{$1 . '-' . $2} = 1
 				}
 			}
 		}
