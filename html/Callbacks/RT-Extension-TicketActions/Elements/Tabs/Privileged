@@ -27,11 +27,29 @@
 
 			if ($Ticket->CurrentUserHasRight('ModifyTicket')) {
 				if ($Ticket->Status ne 'resolved') {
-					$actions->child(rt_extension_quick_resolve =>
+					$actions->child('rt_extension_quick_resolve',
 						title => loc('QuickResolve'),
 						path => "Ticket/Display.html?id=$id&Status=resolved"
 					);
 				}
+
+				if ($Ticket->Status ne 'stalled' && $Ticket->Status ne 'new') {
+				  # Cause add_after does not work
+				  my $sort_order = 0;
+					foreach my $entry ($actions->children()) {
+						if ($entry->key eq 'Stall') {
+						  $sort_order = $entry->sort_order;
+							last;
+						}
+					}
+
+					$actions->child('rt_extension_quick_stalled',
+						title => loc('QuickStall'),
+						path => "Ticket/Display.html?id=$id&Status=stalled",
+						sort_order => $sort_order+1
+					);
+				}
+
 				if ($Ticket->Status ne 'stalled') {
 					my $holidays = holidaysCache();
 

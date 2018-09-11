@@ -47,6 +47,7 @@
     	'Stall'                => 'fa-pause',
     	'extract-article'      => 'fa-copy',
     	'rt_extension_quick_resolve' => 'fa-check-circle',
+			'rt_extension_quick_stalled' => 'fa-pause-circle',
     	'steal'                => 'fa-user-secret',
     	'Undelete'             => 'fa-recycle',
         'untake'               => 'fa-cloud-upload-alt'
