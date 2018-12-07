@@ -7,7 +7,13 @@ use RT;
 
 our $VERSION='2.0.2';
 
-RT->AddJavaScript('fontawesome-svg/js/fontawesome-all.min.js');
+if (eval { require RT::Extension::FontAwesome; }) {
+    RT->Logger->debug('TicketActions: RT-Extension-FontAwesome is available, omit loading');
+} else {
+    RT->Logger->debug('TicketActions: RT-Extension-FontAwesome is NOT available, loading our own');
+    RT->AddJavaScript('fontawesome-svg/js/fontawesome-all.min.js');
+}
+
 RT->AddStyleSheets('ticketactions.css');
 
 =pod
