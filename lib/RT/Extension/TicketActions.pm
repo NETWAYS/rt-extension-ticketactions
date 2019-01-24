@@ -14,6 +14,18 @@ if (eval { require RT::Extension::FontAwesome; }) {
     RT->AddJavaScript('fontawesome-svg/js/fontawesome-all.min.js');
 }
 
+# Using method to wrap non-destructive substitution. The 'r' modifier was
+# introduced in 5.13.2 and is not available on lower perl versions
+sub non_destructive_substitution {
+    my ($in, $re) = @_;
+
+    eval "\$in =~ $re;";
+
+    $@ and die "Bad regex '$re'\n";
+
+    return $in;
+}
+
 RT->AddStyleSheets('ticketactions.css');
 
 =pod
