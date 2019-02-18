@@ -1,4 +1,5 @@
 <%init>
+return unless RT->Config->Get( 'TicketActions', $session{'CurrentUser'} );
 	my $request_path = $HTML::Mason::Commands::r->path_info;
 	my $actions = PageMenu()->child('actions');
 	my $follow_up_time = RT->Config->Get('TicketActions_FollowUpTime') || '10:00:00';
