@@ -22,11 +22,12 @@
 % }
 </&>
 <%init>
-	my $menu = PageMenu()->child('actions');
+return unless RT->Config->Get( 'TicketActions', $session{'CurrentUser'} );
+my $menu = PageMenu()->child('actions');
 
-    unless ($menu) {
-    	return;
-    }
+unless ($menu) {
+	return;
+}
 </%init>
 <%once>
 	use Data::Dumper;
