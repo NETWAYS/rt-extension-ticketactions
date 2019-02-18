@@ -5,7 +5,7 @@
         name="<% $action %>"
 % if (exists $links{$action}) {
         class="rt-extension-quickaccess-button"
-        href="<% $baseUrl %><% $links{$action} =~ s~^/~~r %>">
+        href="<% $baseUrl %><% $nds->($links{$action}, 's~^/~~') %>">
 % } else {
         class="rt-extension-quickaccess-button rt-extension-quickaccess-button-disabled"
         href="#">
@@ -17,6 +17,9 @@
     </a>
 % }
 </&>
+<%once>
+    my $nds = \&RT::Extension::TicketActions::non_destructive_substitution;
+</%once>
 <%init>
 my $ticket = $session{'tickets'} && $session{'tickets'}->ItemMap->{$m->request_args->{'id'}};
 if (! ($ticket && $ticket->{'defined'})) {
@@ -44,12 +47,12 @@ my $child;
 
 if (defined($child = $tickets->child('first'))) {
     $links{'first'} = $child->path;
-    $titles{'first'} = $child->title =~ s/^[< ]+//r;
+    $titles{'first'} = $nds->($child->title, 's/^[< ]+//');
 }
 
 if (defined($child = $tickets->child('prev'))) {
     $links{'prev'} = $child->path;
-    $titles{'prev'} = $child->title =~ s/^[< ]+//r;
+    $titles{'prev'} = $nds->($child->title, 's/^[< ]+//');
 }
 
 if (defined($child = $currentSearch->child('results'))) {
@@ -64,12 +67,12 @@ if (defined($child = $currentSearch->child('edit_search'))) {
 
 if (defined($child = $tickets->child('next'))) {
     $links{'next'} = $child->path;
-    $titles{'next'} = $child->title =~ s/[ >]+$//r;
+    $titles{'next'} = $nds->($child->title, 's/[ >]+$//');
 }
 
 if (defined($child = $tickets->child('last'))) {
     $links{'last'} = $child->path;
-    $titles{'last'} = $child->title =~ s/[ >]+$//r;
+    $titles{'last'} = $nds->($child->title, 's/[ >]+$//');
 }
 
 if (! scalar keys %links) {

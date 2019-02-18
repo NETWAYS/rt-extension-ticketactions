@@ -6,7 +6,7 @@
                 name="<% $entry->title %>"
                 class="rt-extension-quickaccess-button"
                 id="rt-extension-quickaccess-button-<% lc($entry->key) %>"
-                href="<% $baseUrl %><% $entry->path =~ s~^/~~r %>">
+                href="<% $baseUrl %><% $nds->($entry->path, 's~^/~~') %>">
 % my $isDue = $entry->key =~ m/^rt_extension_actions_fu_(\d+)/;
 % if ($isDue) {
 %   my $dueDays = $1;
@@ -52,6 +52,8 @@
     	'Undelete'             => 'fa-recycle',
         'untake'               => 'fa-cloud-upload-alt'
     };
+
+    my $nds = \&RT::Extension::TicketActions::non_destructive_substitution;
 </%once>
 <%args>
 	$Ticket => undef
