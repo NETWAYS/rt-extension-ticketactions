@@ -7,6 +7,16 @@ use RT;
 
 our $VERSION='2.0.2';
 
+$RT::Config::META{'TicketActions'} = {
+    Section         => 'Ticket display',
+    Overridable     => 1,
+    Widget          => '/Widgets/Form/Boolean',
+    WidgetArguments => {
+        Description => 'Display Ticket Actions at Metadata', # loc
+        Hints       => '(' . __PACKAGE__ . ')',
+    },
+};
+
 if (eval { require RT::Extension::FontAwesome; }) {
     RT->Logger->debug('TicketActions: RT-Extension-FontAwesome is available, omit loading');
 } else {
