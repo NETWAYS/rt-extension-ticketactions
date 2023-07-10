@@ -3,3 +3,6 @@
 <%args>
 	$Ticket=>undef
 </%args>
+<%init>
+return unless RT->Config->Get( 'TicketActions', $session{'CurrentUser'} );
+</%init>

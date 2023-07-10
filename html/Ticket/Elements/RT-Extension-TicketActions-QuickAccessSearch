@@ -21,6 +21,7 @@
     my $nds = \&RT::Extension::TicketActions::non_destructive_substitution;
 </%once>
 <%init>
+return unless RT->Config->Get( 'TicketActions', $session{'CurrentUser'} );
 my $ticket = $session{'tickets'} && $session{'tickets'}->ItemMap->{$m->request_args->{'id'}};
 if (! ($ticket && $ticket->{'defined'})) {
     return;
