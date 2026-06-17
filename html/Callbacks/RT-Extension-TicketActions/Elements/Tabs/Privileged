@@ -1,111 +1,28 @@
 <%init>
-	my $request_path = $HTML::Mason::Commands::r->path_info;
-	my $actions = PageMenu()->child('actions');
-	my $follow_up_time = RT->Config->Get('TicketActions_FollowUpTime') || '10:00:00';
-	my @follow_up_days = @{RT->Config->Get('TicketActions_FollowUpDays') // [1, 7, 14]};
-	my $path = '/' . RT->Config->Get('WebPath');
+my $actions = PageMenu()->child('actions');
+return unless $actions;
 
-	my %dow = (
-		'sun' => 0,
-		'mon' => 1,
-		'tue' => 2,
-		'wed' => 3,
-		'thu' => 4,
-		'fri' => 5,
-		'sat' => 6
-	);
-	my %skipDow = map { $dow{$_} => 1 } @{RT->Config->Get('TicketActions_SkipDaysOfWeek') // ['sat', 'sun']};
+# RT6 passes the real page path as the Path argument and exposes the page's
+# arguments via $DECODED_ARGS (the page menu is rebuilt in the lazy
+# /Views/Component/PageMenu request, where $r->path_info and the callback
+# ARGSRef do not carry the ticket path/id).
+return unless ( $Path || '' ) =~ m{^/Ticket/};
 
-	return unless ($actions);
+my $id = $HTML::Mason::Commands::DECODED_ARGS->{'id'};
+return unless ( ( $id // '' ) =~ /^(\d+)$/ );
+$id = $1;
 
-	if ( $request_path =~ m{^/Ticket/} ) {
-		if ( ( $m->request_args->{'id'} || '' ) =~ /^(\d+)$/ ) {
-			my $id  = $1;
-			my $Ticket = RT::Ticket->new($session{'CurrentUser'});
-			$Ticket->Load($id);
-			return unless $Ticket->Id;
-			my $status = $Ticket->Status;
+my $ticket = RT::Ticket->new( $session{'CurrentUser'} );
+$ticket->Load($id);
+return unless $ticket->Id;
 
-			if ($Ticket->CurrentUserHasRight('ModifyTicket')) {
-				if ($status ne 'resolved') {
-					$actions->child('rt_extension_quick_resolve',
-						title => loc('QuickResolve'),
-						path => "Ticket/Display.html?id=$id&Status=resolved"
-					);
-				}
-
-				if ($status eq 'open') {
-				  # Cause add_after does not work
-				  my $sort_order = 0;
-					foreach my $entry ($actions->children()) {
-						if ($entry->key eq 'Stall') {
-						  $sort_order = $entry->sort_order;
-							last;
-						}
-					}
-
-					$actions->child('rt_extension_quick_stalled',
-						title => loc('QuickStall'),
-						path => "Ticket/Display.html?id=$id&Status=stalled",
-						sort_order => $sort_order+1
-					);
-				}
-
-				if ($status ne 'stalled') {
-					my $holidays = holidaysCache();
-
-					foreach my $fu_day (@follow_up_days) {
-						my $date = RT::Date->new($session{'CurrentUser'});
-						$date->SetToNow();
-						$date->Set(Format => 'iso', Value => $date->Date() . ' ' . $follow_up_time);
-						$date->AddDays($fu_day);
-
-						while (exists $skipDow{
-							(localtime $date->Unix())[6] # $date's day of week (see %dow above)
-						} || isHoliday($date, $holidays)) {
-							$date->AddDays(1)
-						}
-
-						$actions->child('rt_extension_actions_fu_' . $fu_day =>
-							title => 'Follow up '
-								. ($fu_day % 7 ? "$fu_day day" : ($fu_day / 7) . ' week')
-								. ($fu_day == 1 || $fu_day == 7 ? '' : 's')
-								. "\n(" . $date->ISO() . ')',
-							path => "Ticket/Display.html?id=$id&Status=stalled&Due_Date=" . $date->ISO());
-					}
-				}
-			}
-		}
-	}
-
-	sub isHoliday {
-		my ($date, $cache) = @_;
-		return unless (defined($cache) && $date->ISO() =~ /^(\d+)-(\d+-\d+)/);
-
-		my ($year, $day) = ($1, $2);
-
-		unless (exists $cache->{cache}->{$year}) {
-			$cache->{cache}->{$year} = {};
-			for my $holiday (keys( %{$cache->{repo}->holidays(year => $year)} )) {
-				if ($holiday =~ /^(\d{2})(\d{2})/) {
-					$cache->{cache}->{$year}->{$1 . '-' . $2} = 1
-				}
-			}
-		}
-
-		exists $cache->{cache}->{$year}->{$day}
-	}
-
-	sub holidaysCache {
-		my $country = RT->Config->Get('TicketActions_HolidaysCountry');
-		return unless (defined $country);
-
-		eval 'use Date::Holidays; 1' or die $@;
-		local $SIG{__WARN__} = sub { die $_[0] };
-
-		{
-			repo  => Date::Holidays->new(countrycode => $country),
-			cache => {}
-		}
-	}
+# Add the NETWAYS QuickResolve/QuickStall/Follow-up entries to the ticket
+# "Actions" menu. The same entries are rendered as icons by the
+# /Ticket/Widgets/Display/TicketActions display widget.
+for my $entry ( RT::Extension::TicketActions::FollowUpActions($ticket) ) {
+    $actions->child( $entry->{key}, title => $entry->{title}, path => $entry->{path} );
+}
 </%init>
+<%args>
+$Path => undef
+</%args>

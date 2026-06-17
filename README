@@ -11,13 +11,8 @@ DESCRIPTION
     holidays of a specific country and specific days of week can be skipped
     automatically, if enabled.
 
-    In addition to that, this extension provides navigation items if you
-    have opened this ticket from a search result listing. You can navigate
-    between search result tickets (first, previous, next, last), open the
-    search result list again or even modify the search query.
-
 RT VERSION
-    Works with RT 4.4.2
+    Works with RT 6.0.0
 
 REQUIREMENTS
     Date::Holidays (>= 1.07)

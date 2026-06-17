@@ -1,0 +1,124 @@
+%# Quick action icon bar for the ticket display page. Mirrors the ticket
+%# "Actions" menu (reply/comment/forward, lifecycle transitions, take/steal)
+%# and adds the NETWAYS QuickResolve/QuickStall/Follow-up entries.
+%#
+%# Built self-contained from the ticket object: this widget is lazy-loaded
+%# via /Views, where the page menu (PageMenu) is not populated.
+%#
+%# Add this widget to the ticket display page via Admin -> Page Layouts
+%# (class RT::Ticket, page Display).
+% $m->callback( %ARGS, CallbackName => 'BeforeWidget' );
+<&| /Widgets/TitleBox, title => loc('Quick Actions'), class => 'ticket-info-basics' &>
+% foreach my $entry (@actions) {
+% my $href = $web_path . $entry->{path};
+% (my $btn_id = lc $entry->{key}) =~ s/[^a-z0-9]+/-/g;
+    <a
+        class="rt-extension-quickaccess-button"
+        id="rt-extension-quickaccess-button-<% $btn_id %>"
+        href="<% $href %>">
+% if ($entry->{key} =~ m/^rt_extension_actions_fu_(\d+)/) {
+        <span class="rt-extension-quickaccess-due">
+            <% GetSVGImage(Name => 'calendar', Size => 20) |n %>
+            <span class="rt-extension-quickaccess-due-num"><% $1 %></span>
+        </span>
+% } else {
+        <% GetSVGImage(Name => ($imgMap->{$entry->{key}} || 'info'), Size => 20) |n %>
+% }
+        <div class="rt-extension-quickaccess-tooltip"><% $entry->{title} %></div>
+    </a>
+% }
+</&>
+% $m->callback( %ARGS, CallbackName => 'AfterWidget' );
+<%ARGS>
+$TicketObj
+</%ARGS>
+<%init>
+my $ticket = $TicketObj;
+my $id     = $ticket->id;
+my $can    = sub { $ticket->CurrentUserHasRight(@_) };
+
+my @actions;
+
+push @actions, { key => 'reply', title => loc('Reply'), path => "/Ticket/Update.html?Action=Respond;id=$id" }
+    if $can->('ModifyTicket') || $can->('ReplyToTicket');
+push @actions, { key => 'comment', title => loc('Comment'), path => "/Ticket/Update.html?Action=Comment;id=$id" }
+    if $can->('ModifyTicket') || $can->('CommentOnTicket');
+push @actions, { key => 'forward', title => loc('Forward'), path => "/Ticket/Forward.html?id=$id" }
+    if $can->('ForwardMessage');
+
+# Lifecycle status transitions (Open It, Resolve, Stall, Reject, ...)
+my $hide_resolve_with_deps = RT->Config->Get('HideResolveActionsWithDependencies')
+    && $ticket->HasUnresolvedDependencies;
+my $current   = $ticket->Status;
+my $lifecycle = $ticket->LifecycleObj;
+foreach my $info ( $lifecycle->Actions($current) ) {
+    my $next = $info->{'to'};
+    next unless $lifecycle->IsTransition( $current => $next );
+    next unless $can->( $lifecycle->CheckRight( $current => $next ) );
+    next if $hide_resolve_with_deps
+        && $lifecycle->IsInactive($next)
+        && !$lifecycle->IsInactive($current);
+
+    my $action = $info->{'update'} || '';
+    my $url = "/Ticket/Update.html?" . QueryString(
+        $action ? ( Action => $action ) : ( SubmitTicket => 1, Status => $next ),
+        DefaultStatus => $next,
+        id            => $id,
+    );
+    my $key = $info->{'label'} || ucfirst($next);
+    push @actions, { key => $key, title => loc($key), path => $url };
+}
+
+# Ownership
+my ($can_take)   = $ticket->CurrentUserCanSetOwner( Type => 'Take' );
+my ($can_steal)  = $ticket->CurrentUserCanSetOwner( Type => 'Steal' );
+my ($can_untake) = $ticket->CurrentUserCanSetOwner( Type => 'Untake' );
+if ($can_take) {
+    push @actions, { key => 'take', title => loc('Take'), path => "/Ticket/Display.html?Action=Take;id=$id" };
+}
+elsif ($can_steal) {
+    push @actions, { key => 'steal', title => loc('Steal'), path => "/Ticket/Display.html?Action=Steal;id=$id" };
+}
+elsif ($can_untake) {
+    push @actions, { key => 'untake', title => loc('Untake'), path => "/Ticket/Display.html?Action=Untake;id=$id" };
+}
+
+# NETWAYS QuickResolve / QuickStall / Follow-up
+push @actions, RT::Extension::TicketActions::FollowUpActions($ticket);
+
+return unless @actions;
+
+my $web_path = RT->Config->Get('WebPath');
+</%init>
+<%once>
+# Map RT action keys to RT6 bootstrap-icon (GetSVGImage) names.
+my $imgMap = {
+    'reply'                      => 'reply',
+    'comment'                    => 'comment',
+    'forward'                    => 'forward',
+    'Open It'                    => 'folder2-open',
+    'Resolve'                    => 'check-circle',
+    'Reject'                     => 'slash-circle',
+    'Delete'                     => 'trash',
+    'take'                       => 'person-plus-fill',
+    'Re-open'                    => 'arrow-clockwise',
+    'Stall'                      => 'pause',
+    'rt_extension_quick_resolve' => 'check-circle-fill',
+    'rt_extension_quick_stalled' => 'pause-circle-fill',
+    'steal'                      => 'person-x-fill',
+    'Undelete'                   => 'arrow-clockwise',
+    'untake'                     => 'person-dash-fill',
+};
+</%once>
+<%METHOD PreCheck>
+<%args>
+$Object
+</%args>
+<%init>
+return 1
+    if $Object->CurrentUserHasRight('ModifyTicket')
+    || $Object->CurrentUserHasRight('ReplyToTicket')
+    || $Object->CurrentUserHasRight('CommentOnTicket');
+return 0;
+</%init>
+</%METHOD>

@@ -20,10 +20,6 @@ This means that a ticket should be due in x days. This combination of properties
 to bring tickets up to users. In addition holidays of a specific country and specific days of week can be skipped
 automatically, if enabled.
 
-In addition to that, this extension provides navigation items if you have opened this ticket from a search result
-listing. You can navigate between search result tickets (first, previous, next, last), open the search result list
-again or even modify the search query.
-
 ## License
 
 This project is licensed under the terms of the GNU General Public License Version 2.
@@ -37,7 +33,7 @@ You may also send us an email to [support@netways.de](mailto:support@netways.de)
 
 ## Requirements
 
-- RT 4.4.2
+- RT 6.0.0
 - Holidays skipping requires the Perl module `Date::Holidays` and e.g.
   `Date::Holidays::DE` for German holidays.
 
@@ -71,7 +67,7 @@ make install
 Clear your mason cache.
 
 ```
-rm -rf /opt/rt4/var/mason_data/obj
+rm -rf /opt/rt/var/mason_data/obj
 ```
 
 Restart your web server.
@@ -119,3 +115,13 @@ Set($TicketActions_FollowUpTime, '10:00:00');
 Set($TicketActions_HolidaysCountry, 'DE');
 Set($TicketActions_SkipDaysOfWeek, ['sat', 'sun']);
 ```
+
+### Quick Actions widget
+
+The "Quick Actions" icon bar is provided as a display widget named
+`TicketActions`. Add it to the ticket display page via **Admin → Page Layouts**
+(class `RT::Ticket`, page `Display`) by placing the `TicketActions` element
+where you want the box to appear.
+
+The QuickResolve, QuickStall and Follow-up entries are additionally added to the
+ticket **Actions** menu, so they are available even without the widget.

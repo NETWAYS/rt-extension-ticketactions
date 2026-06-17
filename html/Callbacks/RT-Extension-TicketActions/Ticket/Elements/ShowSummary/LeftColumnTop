@@ -1,5 +1,0 @@
-<& /Ticket/Elements/RT-Extension-TicketActions-QuickAccess, Ticket => $Ticket &>
-<& /Ticket/Elements/RT-Extension-TicketActions-QuickAccessSearch &>
-<%args>
-	$Ticket=>undef
-</%args>

@@ -1,75 +1,66 @@
+/* Quick action icon buttons, styled to match RT6's native .rt-inline-icon look. */
 .rt-extension-quickaccess-button {
     display: inline-block;
-    width: 1.65em;
-    font-size: large;
-    color: #666;
-    text-align: center;
-    padding: 0.25em;
-    margin-top: 0.25em;
-    text-decoration: none !important;
+    padding: 0.25rem;
+    /* Same sizing as RT's native .rt-inline-icon.border buttons, 20px icon */
+    height: calc(0.5rem + 20px + 2 * var(--bs-border-width));
+    margin: 0.25rem 0.15rem 0 0;
+    line-height: 1;
     position: relative;
-    border: 1px #eee solid;
-}
-
-#rt-extension-quickaccess-button-reply {
-    background-color: #fcc !important;
-    border: 1px #ccc solid;
-}
-
-#rt-extension-quickaccess-button-comment {
-    background-color: #ffffdd !important;
-    border: 1px #ccc solid;
-}
-
-.rt-extension-quickaccess-button .fa-layers-text {
-    font-weight: 900;
+    color: var(--bs-secondary-color, #555);
+    border: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6);
+    border-radius: var(--bs-border-radius, 0.375rem);
+    text-decoration: none !important;
 }
 
 .rt-extension-quickaccess-button:visited {
-    color: #666 !important;
+    color: var(--bs-secondary-color, #555);
 }
 
-.rt-extension-quickaccess-button:hover:not(.rt-extension-quickaccess-button-disabled) {
-    background-color: #f1f1f1;
-    -o-transition:.2s;
-    -ms-transition:.2s;
-    -moz-transition:.2s;
-    -webkit-transition:.2s;
-    transition:.2s;
+.rt-extension-quickaccess-button svg {
+    /* Centres the icon vertically, matching RT's .rt-inline-icon convention */
+    vertical-align: inherit;
 }
 
-.rt-extension-quickaccess-button:hover:not(.rt-extension-quickaccess-button-disabled) svg {
-    color: #F05E32;
-    -o-transition:.2s;
-    -ms-transition:.2s;
-    -moz-transition:.2s;
-    -webkit-transition:.2s;
-    transition:.2s;
+.rt-extension-quickaccess-button:hover {
+    color: var(--bs-link-color, #0d6efd);
+    background-color: var(--bs-tertiary-bg, #f1f1f1);
+    border-color: var(--bs-border-color, #ced4da);
+    transition: .15s;
+}
+
+/* Day-count badge overlaid on the follow-up calendar icon */
+.rt-extension-quickaccess-due {
+    position: relative;
+    display: inline-flex;
+}
+
+.rt-extension-quickaccess-due-num {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.5px;
+    text-align: center;
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .rt-extension-quickaccess-tooltip {
     position: absolute;
     z-index: 1000;
-    margin: 0.75em 0.5em;
-    border: 1px #c1c1c1 solid;
-    padding: 0.5em;
-    background-color: #f1f1f1;
-    white-space: nowrap;
-    font-size: small;
-    color: #666;
+    margin: 0.5rem 0.25rem;
+    padding: 0.25rem 0.5rem;
     white-space: pre;
+    font-size: 0.75rem;
+    color: var(--bs-body-color, #333);
+    background-color: var(--bs-body-bg, #fff);
+    border: var(--bs-border-width, 1px) solid var(--bs-border-color, #ced4da);
+    border-radius: var(--bs-border-radius-sm, 0.25rem);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
-*:not(:hover) .rt-extension-quickaccess-tooltip,
+*:not(:hover) > .rt-extension-quickaccess-tooltip,
 .rt-extension-quickaccess-tooltip:hover {
     display: none;
-}
-
-.rt-extension-quickaccess-button-disabled {
-    cursor: not-allowed;
-    color: #ccc;
-}
-
-.rt-extension-quickaccess-button-disabled:visited {
-    color: #ccc !important;
 }
