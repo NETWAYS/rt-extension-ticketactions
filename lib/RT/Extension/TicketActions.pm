@@ -5,7 +5,7 @@ use strict;
 use version;
 use RT;
 
-our $VERSION='2.0.2';
+our $VERSION='2.1.0';
 
 if (eval { require RT::Extension::FontAwesome; }) {
     RT->Logger->debug('TicketActions: RT-Extension-FontAwesome is available, omit loading');

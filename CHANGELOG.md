@@ -1,5 +1,25 @@
 # Change Log
 
+## [v2.1.0](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v2.1.0) (2026-06-17)
+[Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v2.0.2...v2.1.0)
+
+This is the final RT 4.4.x release of TicketActions.
+
+**Implemented enhancements:**
+
+- Add QuickStall action
+- Use `RT::Extension::FontAwesome` if installed instead of bundling FontAwesome
+
+**Fixed bugs:**
+
+- Fix holiday detection
+- Fix non-destructive substitution modifier [\#20](https://github.com/NETWAYS/rt-extension-ticketactions/pull/20)
+- Improve QuickAccess button hitbox and styling
+
+**Merged pull requests:**
+
+- Add license file [\#22](https://github.com/NETWAYS/rt-extension-ticketactions/pull/22) ([MisterMountain](https://github.com/MisterMountain))
+
 ## [v2.0.2](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v2.0.2) (2018-04-05)
 [Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v2.0.1...v2.0.2)
 
