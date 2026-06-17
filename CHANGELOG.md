@@ -1,5 +1,28 @@
 # Change Log
 
+## [v3.0.0](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v3.0.0) (2026-06-17)
+[Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v2.1.0...v3.0.0)
+
+First release for RT 6. **Breaking:** requires RT 6.0.0 and no longer works on RT 4.
+
+**Breaking changes:**
+
+- Require RT 6.0.0 (`requires_rt`); drop RT 4 support
+- Remove the search-result navigation box (RT 6 provides this natively)
+
+**Implemented enhancements:**
+
+- Provide the Quick Actions bar as an RT 6 page-layout widget; add it via
+  Admin -> Page Layouts (class `RT::Ticket`, page `Display`)
+- Render icons via RT's `GetSVGImage` (Bootstrap Icons) instead of bundling
+  FontAwesome; distinguish QuickResolve/QuickStall with filled icon variants
+- Style the action buttons to match RT 6's native theme
+
+**Fixed bugs:**
+
+- Degrade gracefully when `Date::Holidays` is unavailable instead of failing
+- Compute the weekend-skip weekday in UTC, consistent with the stored due date
+
 ## [v2.1.0](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v2.1.0) (2026-06-17)
 [Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v2.0.2...v2.1.0)
 

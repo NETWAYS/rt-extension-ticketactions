@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use RT;
 
-our $VERSION='2.1.0';
+our $VERSION='3.0.0';
 
 RT->AddStyleSheets('ticketactions.css');
 
