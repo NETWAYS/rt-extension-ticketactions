@@ -1,5 +1,16 @@
 # Change Log
 
+## [v3.1.0](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v3.1.0) (2026-06-18)
+[Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- Perform one-click quick actions in place via htmx with RT's native growl
+  notification instead of a full-page reload; the Basics widget, page menu and
+  the Quick Actions box refresh automatically. Actions that need a message
+  (reply/comment/forward, lifecycle transitions with a reply/comment step) still
+  open the update form.
+
 ## [v3.0.0](https://github.com/NETWAYS/rt-extension-ticketactions/tree/v3.0.0) (2026-06-17)
 [Full Changelog](https://github.com/NETWAYS/rt-extension-ticketactions/compare/v2.1.0...v3.0.0)
 

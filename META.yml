@@ -23,6 +23,6 @@ requires:
 resources:
   license: http://opensource.org/licenses/gpl-license.php
   repository: https://github.com/NETWAYS/rt-extension-ticketactions
-version: 3.0.0
+version: 3.1.0
 x_module_install_rtx_version: '0.40'
 x_requires_rt: 6.0.0
