@@ -1,0 +1,126 @@
+%# Quick action icon buttons. Rendered inside the TicketActions display widget
+%# and re-fetched via /Views on ticketStatusChanged/ticketOwnerChanged so the
+%# action set stays current after an inline (htmx) quick action.
+%#
+%# Entries with a "submit" hashref post to /Helpers/TicketUpdate via htmx
+%# (in-place change + growl); the rest are plain navigation links.
+% foreach my $entry (@actions) {
+% (my $btn_id = lc $entry->{key}) =~ s/[^a-z0-9]+/-/g;
+% if ( my $submit = $entry->{submit} ) {
+    <a
+        class="rt-extension-quickaccess-button"
+        id="rt-extension-quickaccess-button-<% $btn_id %>"
+        href="#"
+        hx-post="<% $web_path %>/Helpers/TicketUpdate"
+        hx-vals="<% JSON($submit) %>"
+        hx-swap="none">
+% } else {
+    <a
+        class="rt-extension-quickaccess-button"
+        id="rt-extension-quickaccess-button-<% $btn_id %>"
+        href="<% $web_path . $entry->{path} %>">
+% }
+% if ( $entry->{key} =~ m/^rt_extension_actions_fu_(\d+)/ ) {
+        <span class="rt-extension-quickaccess-due">
+            <% GetSVGImage(Name => 'calendar', Size => 20) |n %>
+            <span class="rt-extension-quickaccess-due-num"><% $1 %></span>
+        </span>
+% } else {
+        <% GetSVGImage(Name => ($imgMap->{$entry->{key}} || 'info'), Size => 20) |n %>
+% }
+        <div class="rt-extension-quickaccess-tooltip"><% $entry->{title} %></div>
+    </a>
+% }
+<%ARGS>
+$Ticket
+</%ARGS>
+<%attr>
+directly_accessible => 1
+</%attr>
+<%init>
+my $ticket   = $Ticket;
+my $id       = $ticket->id;
+my $can      = sub { $ticket->CurrentUserHasRight(@_) };
+my $web_path = RT->Config->Get('WebPath');
+
+my @actions;
+
+push @actions, { key => 'reply', title => loc('Reply'), path => "/Ticket/Update.html?Action=Respond;id=$id" }
+    if $can->('ModifyTicket') || $can->('ReplyToTicket');
+push @actions, { key => 'comment', title => loc('Comment'), path => "/Ticket/Update.html?Action=Comment;id=$id" }
+    if $can->('ModifyTicket') || $can->('CommentOnTicket');
+push @actions, { key => 'forward', title => loc('Forward'), path => "/Ticket/Forward.html?id=$id" }
+    if $can->('ForwardMessage');
+
+# Lifecycle status transitions (Open It, Resolve, Stall, Reject, ...)
+my $hide_resolve_with_deps = RT->Config->Get('HideResolveActionsWithDependencies')
+    && $ticket->HasUnresolvedDependencies;
+my $current   = $ticket->Status;
+my $lifecycle = $ticket->LifecycleObj;
+foreach my $info ( $lifecycle->Actions($current) ) {
+    my $next = $info->{'to'};
+    next unless $lifecycle->IsTransition( $current => $next );
+    next unless $can->( $lifecycle->CheckRight( $current => $next ) );
+    next if $hide_resolve_with_deps
+        && $lifecycle->IsInactive($next)
+        && !$lifecycle->IsInactive($current);
+
+    my $key    = $info->{'label'} || ucfirst($next);
+    my $action = $info->{'update'} || '';
+    if ($action) {
+        # Transition carries a reply/comment step -> open the update form.
+        push @actions, {
+            key   => $key,
+            title => loc($key),
+            path  => "/Ticket/Update.html?"
+                . QueryString( Action => $action, DefaultStatus => $next, id => $id ),
+        };
+    }
+    else {
+        # Form-less transition -> change status in place (htmx + growl).
+        push @actions, {
+            key    => $key,
+            title  => loc($key),
+            submit => { id => $id, Status => $next },
+        };
+    }
+}
+
+# Ownership (one-click, no form -> in place via htmx + growl)
+my $me           = $session{'CurrentUser'}->id;
+my ($can_take)   = $ticket->CurrentUserCanSetOwner( Type => 'Take' );
+my ($can_steal)  = $ticket->CurrentUserCanSetOwner( Type => 'Steal' );
+my ($can_untake) = $ticket->CurrentUserCanSetOwner( Type => 'Untake' );
+if ($can_take) {
+    push @actions, { key => 'take', title => loc('Take'), submit => { id => $id, Owner => $me } };
+}
+elsif ($can_steal) {
+    push @actions, { key => 'steal', title => loc('Steal'), submit => { id => $id, Owner => $me } };
+}
+elsif ($can_untake) {
+    push @actions, { key => 'untake', title => loc('Untake'), submit => { id => $id, Owner => RT->Nobody->id } };
+}
+
+# NETWAYS QuickResolve / QuickStall / Follow-up (in-place htmx actions)
+push @actions, RT::Extension::TicketActions::FollowUpActions($ticket);
+</%init>
+<%once>
+# Map RT action keys to RT6 bootstrap-icon (GetSVGImage) names.
+my $imgMap = {
+    'reply'                      => 'reply',
+    'comment'                    => 'comment',
+    'forward'                    => 'forward',
+    'Open It'                    => 'folder2-open',
+    'Resolve'                    => 'check-circle',
+    'Reject'                     => 'slash-circle',
+    'Delete'                     => 'trash',
+    'take'                       => 'person-plus-fill',
+    'Re-open'                    => 'arrow-clockwise',
+    'Stall'                      => 'pause',
+    'rt_extension_quick_resolve' => 'check-circle-fill',
+    'rt_extension_quick_stalled' => 'pause-circle-fill',
+    'steal'                      => 'person-x-fill',
+    'Undelete'                   => 'arrow-clockwise',
+    'untake'                     => 'person-dash-fill',
+};
+</%once>

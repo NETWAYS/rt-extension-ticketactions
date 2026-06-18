@@ -49,19 +49,21 @@ sub FollowUpActions {
 
     if ( $status ne 'resolved' ) {
         push @out, {
-            key   => 'rt_extension_quick_resolve',
-            title => $cu->loc('QuickResolve'),
-            path  => '/Ticket/Display.html?'
+            key    => 'rt_extension_quick_resolve',
+            title  => $cu->loc('QuickResolve'),
+            path   => '/Ticket/Display.html?'
                 . HTML::Mason::Commands::QueryString( id => $id, Status => 'resolved' ),
+            submit => { id => $id, Status => 'resolved' },
         };
     }
 
     if ( $status eq 'open' ) {
         push @out, {
-            key   => 'rt_extension_quick_stalled',
-            title => $cu->loc('QuickStall'),
-            path  => '/Ticket/Display.html?'
+            key    => 'rt_extension_quick_stalled',
+            title  => $cu->loc('QuickStall'),
+            path   => '/Ticket/Display.html?'
                 . HTML::Mason::Commands::QueryString( id => $id, Status => 'stalled' ),
+            submit => { id => $id, Status => 'stalled' },
         };
     }
 
@@ -97,6 +99,7 @@ sub FollowUpActions {
                     . HTML::Mason::Commands::QueryString(
                         id => $id, Status => 'stalled', Due_Date => $date->ISO(),
                     ),
+                submit => { id => $id, Status => 'stalled', Due_Date => $date->ISO() },
             };
         }
     }

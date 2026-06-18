@@ -11,6 +11,7 @@
     border: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6);
     border-radius: var(--bs-border-radius, 0.375rem);
     text-decoration: none !important;
+    cursor: pointer;
 }
 
 .rt-extension-quickaccess-button:visited {

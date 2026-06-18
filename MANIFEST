@@ -2,6 +2,7 @@ doc/quickaction-box.png
 html/Callbacks/RT-Extension-TicketActions/Elements/Tabs/Privileged
 html/static/autohandler
 html/static/css/ticketactions.css
+html/Ticket/Elements/RT-Extension-TicketActions-QuickAccess
 html/Ticket/Widgets/Display/TicketActions
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
